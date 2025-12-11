@@ -18,8 +18,7 @@ import * as React from 'react';
 import { useSnapshot } from 'valtio';
 
 const CATEGORY_VOTE_TIME = 15000;
-const TRAP_SELECTION_TIME = 30000;
-const TRAP_SELECTION_FINAL_COUNTDOWN = 5000;
+const TRAP_SELECTION_TIME = 20000;
 const ROUND_RESULTS_TIME = 5000;
 
 const TrapIcon: React.FC<{ type: string }> = ({ type }) => {
@@ -56,7 +55,6 @@ const PresenterContent: React.FC = () => {
 		trapSelections,
 		activeTraps,
 		trapSelectionStartTimestamp,
-		trapSelectionAllDoneTimestamp,
 		currentQuestion,
 		playerAnswers,
 		roundResultsStartTimestamp
@@ -77,7 +75,8 @@ const PresenterContent: React.FC = () => {
 		if (phase === 'final-results') {
 			confetti?.triggerConfetti({ preset: 'massive' });
 		}
-	}, [phase, confetti]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [phase]);
 
 	// Sort players by score
 	const sortedPlayers = React.useMemo(() => {
@@ -110,10 +109,6 @@ const PresenterContent: React.FC = () => {
 	};
 
 	const getTrapSelectionRemaining = () => {
-		if (trapSelectionAllDoneTimestamp > 0) {
-			const elapsed = serverTime - trapSelectionAllDoneTimestamp;
-			return Math.max(0, TRAP_SELECTION_FINAL_COUNTDOWN - elapsed);
-		}
 		const elapsed = serverTime - trapSelectionStartTimestamp;
 		return Math.max(0, TRAP_SELECTION_TIME - elapsed);
 	};

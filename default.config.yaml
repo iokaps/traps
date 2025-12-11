@@ -19,6 +19,11 @@ configureGameTitle: 'Game Settings'
 totalRoundsLabel: 'Total Rounds'
 questionTimeLabel: 'Question Time (seconds)'
 
+# Game Starting
+gameStartingTitle: 'Get Ready!'
+getReadyMessage: 'The game is about to begin...'
+generatingCategoriesMessage: 'Generating categories...'
+
 # Category Vote
 categoryVoteTitle: 'Vote for a Category'
 categoryVoteSubtitle: 'Choose a topic for the next question'

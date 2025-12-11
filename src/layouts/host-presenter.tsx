@@ -8,9 +8,7 @@ interface LayoutProps {
 }
 
 const HostPresenterRoot: React.FC<LayoutProps> = ({ children, className }) => (
-	<div className={cn('bg-slate-100 min-h-screen p-8', className)}>
-		{children}
-	</div>
+	<div className={cn('bg-page-bg min-h-screen p-8', className)}>{children}</div>
 );
 
 const HostPresenterHeader: React.FC<LayoutProps> = ({
@@ -18,7 +16,7 @@ const HostPresenterHeader: React.FC<LayoutProps> = ({
 	className
 }) => (
 	<header className={cn('mb-8', className)}>
-		<h1 className="text-2xl font-bold">{config.title}</h1>
+		<h1 className="text-text-heading text-3xl font-bold">{config.title}</h1>
 		{children}
 	</header>
 );

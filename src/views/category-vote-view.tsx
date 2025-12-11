@@ -47,8 +47,8 @@ export const CategoryVoteView: React.FC = () => {
 	if (categoryOptions.length === 0) {
 		return (
 			<div className="flex w-full max-w-md flex-col items-center gap-4">
-				<div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
-				<p className="text-gray-600">{config.loading}</p>
+				<div className="border-primary h-8 w-8 animate-spin rounded-full border-4 border-t-transparent" />
+				<p className="text-text-muted">{config.loading}</p>
 			</div>
 		);
 	}
@@ -56,13 +56,19 @@ export const CategoryVoteView: React.FC = () => {
 	return (
 		<div className="flex w-full max-w-md flex-col gap-6">
 			<div className="text-center">
-				<h2 className="text-2xl font-bold">{config.categoryVoteTitle}</h2>
-				<p className="text-gray-600">{config.categoryVoteSubtitle}</p>
+				<h2 className="text-text-heading text-2xl font-bold">
+					{config.categoryVoteTitle}
+				</h2>
+				<p className="text-text-muted">{config.categoryVoteSubtitle}</p>
 			</div>
 
 			<div className="flex items-center justify-center gap-2 text-lg">
-				<span className="text-gray-600">{config.categoryVoteTimeLabel}:</span>
-				<KmTimeCountdown ms={remaining} display="s" className="font-bold" />
+				<span className="text-text-muted">{config.categoryVoteTimeLabel}:</span>
+				<KmTimeCountdown
+					ms={remaining}
+					display="s"
+					className="text-primary font-bold"
+				/>
 			</div>
 
 			<div className="flex flex-col gap-3">
@@ -78,19 +84,19 @@ export const CategoryVoteView: React.FC = () => {
 							className={cn(
 								'relative flex items-center justify-between rounded-xl border-2 p-4 text-left transition-all',
 								isSelected
-									? 'border-blue-500 bg-blue-50'
-									: 'border-gray-200 bg-white hover:border-gray-300',
+									? 'border-primary bg-primary/10'
+									: 'bg-surface hover:border-primary-light hover:bg-primary/5 border-gray-200',
 								hasVoted && !isSelected && 'opacity-60'
 							)}
 						>
 							<span className="text-lg font-medium">{category}</span>
 							<div className="flex items-center gap-2">
 								{voteCount > 0 && (
-									<span className="text-sm text-gray-500">
+									<span className="text-text-muted text-sm">
 										{voteCount} {config.votesLabel}
 									</span>
 								)}
-								{isSelected && <Check className="h-5 w-5 text-blue-500" />}
+								{isSelected && <Check className="text-primary h-5 w-5" />}
 							</div>
 						</button>
 					);
@@ -98,7 +104,7 @@ export const CategoryVoteView: React.FC = () => {
 			</div>
 
 			{hasVoted && (
-				<p className="text-center text-gray-500">
+				<p className="text-text-muted text-center">
 					{config.waitingForOthersLabel}
 				</p>
 			)}

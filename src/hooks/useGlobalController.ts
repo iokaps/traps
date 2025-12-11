@@ -7,8 +7,7 @@ import { useServerTimer } from './useServerTime';
 
 const GAME_START_COUNTDOWN = 5000; // 5 seconds countdown before category vote
 const CATEGORY_VOTE_TIME = 15000; // 15 seconds
-const TRAP_SELECTION_TIME = 30000; // 30 seconds
-const TRAP_SELECTION_FINAL_COUNTDOWN = 5000; // 5 seconds when all done
+const TRAP_SELECTION_TIME = 20000; // 20 seconds
 const ROUND_RESULTS_TIME = 5000; // 5 seconds
 
 export function useGlobalController() {
@@ -19,7 +18,6 @@ export function useGlobalController() {
 		categoryOptions,
 		categoryVoteStartTimestamp,
 		trapSelectionStartTimestamp,
-		trapSelectionAllDoneTimestamp,
 		trapSelections,
 		currentQuestion,
 		playerAnswers,
@@ -78,33 +76,13 @@ export function useGlobalController() {
 			}
 		}
 
-		// Trap Selection Phase
+		// Trap Selection Phase - always wait for full timer to give AI time to generate question
 		if (phase === 'trap-selection' && trapSelectionStartTimestamp > 0) {
-			// Check if all online players have selected traps
-			// Only mark done if there's at least one online player
-			const allDone =
-				onlinePlayerIds.length > 0 &&
-				onlinePlayerIds.every((id) => trapSelections[id] !== undefined);
-
 			const elapsed = serverTime - trapSelectionStartTimestamp;
 
-			if (allDone && trapSelectionAllDoneTimestamp === 0) {
-				// All players done, start 5s countdown
-				globalActions.markAllTrapSelectionsDone();
-			}
-
-			// Check timers
-			if (trapSelectionAllDoneTimestamp > 0) {
-				// 5s countdown after all done
-				const elapsedSinceDone = serverTime - trapSelectionAllDoneTimestamp;
-				if (elapsedSinceDone >= TRAP_SELECTION_FINAL_COUNTDOWN) {
-					globalActions.startQuestion();
-				}
-			} else {
-				// 30s main timer
-				if (elapsed >= TRAP_SELECTION_TIME) {
-					globalActions.startQuestion();
-				}
+			if (elapsed >= TRAP_SELECTION_TIME) {
+				// Timer expired, start question
+				globalActions.startQuestion();
 			}
 		}
 
@@ -140,7 +118,6 @@ export function useGlobalController() {
 		categoryOptions,
 		categoryVoteStartTimestamp,
 		trapSelectionStartTimestamp,
-		trapSelectionAllDoneTimestamp,
 		trapSelections,
 		currentQuestion,
 		playerAnswers,

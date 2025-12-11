@@ -22,17 +22,19 @@ export const GameStartingView: React.FC = () => {
 		return (
 			<div className="flex w-full max-w-md flex-col items-center gap-6">
 				<div className="text-center">
-					<h2 className="text-2xl font-bold">{config.gameStartingTitle}</h2>
-					<p className="text-gray-600">
+					<h2 className="text-text-heading text-2xl font-bold">
+						{config.gameStartingTitle}
+					</h2>
+					<p className="text-text-muted">
 						{config.roundLabel} {currentRound}/{gameConfig.totalRounds}
 					</p>
 				</div>
 
-				<div className="flex h-32 w-32 items-center justify-center rounded-full bg-blue-500 shadow-lg">
+				<div className="bg-primary flex h-32 w-32 items-center justify-center rounded-full shadow-lg">
 					<div className="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent" />
 				</div>
 
-				<p className="text-center text-gray-500">
+				<p className="text-text-muted text-center">
 					{config.generatingCategoriesMessage}
 				</p>
 			</div>
@@ -42,13 +44,15 @@ export const GameStartingView: React.FC = () => {
 	return (
 		<div className="flex w-full max-w-md flex-col items-center gap-6">
 			<div className="text-center">
-				<h2 className="text-2xl font-bold">{config.gameStartingTitle}</h2>
-				<p className="text-gray-600">
+				<h2 className="text-text-heading text-2xl font-bold">
+					{config.gameStartingTitle}
+				</h2>
+				<p className="text-text-muted">
 					{config.roundLabel} {currentRound}/{gameConfig.totalRounds}
 				</p>
 			</div>
 
-			<div className="flex h-32 w-32 items-center justify-center rounded-full bg-blue-500 shadow-lg">
+			<div className="bg-primary flex h-32 w-32 items-center justify-center rounded-full shadow-lg">
 				<KmTimeCountdown
 					ms={remaining}
 					display="s"
@@ -56,7 +60,7 @@ export const GameStartingView: React.FC = () => {
 				/>
 			</div>
 
-			<p className="text-center text-gray-500">{config.getReadyMessage}</p>
+			<p className="text-text-muted text-center">{config.getReadyMessage}</p>
 		</div>
 	);
 };

@@ -36,6 +36,7 @@ export const globalActions = {
 			globalState.currentQuestion = null;
 			globalState.playerAnswers = {};
 			globalState.isGeneratingQuestion = false; // Reset generation lock
+			globalState.isGeneratingCategories = false; // Reset category generation lock
 		});
 
 		// Generate categories in background (controller will transition when ready)
@@ -377,6 +378,8 @@ export const globalActions = {
 			globalState.playerAnswers = {};
 			globalState.categoryVoteStartTimestamp = 0;
 			globalState.roundResultsStartTimestamp = 0;
+			globalState.isGeneratingCategories = false; // Reset category generation lock
+			globalState.isGeneratingQuestion = false; // Reset question generation lock
 
 			// Reset player scores but keep names
 			Object.keys(globalState.players).forEach((clientId) => {

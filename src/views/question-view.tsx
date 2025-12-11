@@ -59,6 +59,20 @@ export const QuestionView: React.FC = () => {
 
 	const remaining = Math.max(0, currentQuestion.endTimestamp - serverTime);
 
+	// Answer button color styles based on index
+	const getAnswerColors = (index: number, isSelected: boolean) => {
+		if (isSelected) {
+			return 'border-primary bg-primary/20 ring-2 ring-primary';
+		}
+		const colors = [
+			'bg-answer-a-bg border-answer-a-border text-answer-a-text hover:border-answer-a-border/80',
+			'bg-answer-b-bg border-answer-b-border text-answer-b-text hover:border-answer-b-border/80',
+			'bg-answer-c-bg border-answer-c-border text-answer-c-text hover:border-answer-c-border/80',
+			'bg-answer-d-bg border-answer-d-border text-answer-d-text hover:border-answer-d-border/80'
+		];
+		return colors[index] || colors[0];
+	};
+
 	// Check if answer is selectable (ice broken, mud cleared)
 	const isAnswerSelectable = (index: number): boolean => {
 		if (hasAnswered) return false;
@@ -115,11 +129,11 @@ export const QuestionView: React.FC = () => {
 		<div className="flex w-full max-w-md flex-col gap-4">
 			{/* Header */}
 			<div className="flex items-center justify-between">
-				<span className="text-sm text-gray-500">
+				<span className="text-text-muted text-sm">
 					{config.roundLabel} {currentRound}/{gameConfig.totalRounds}
 				</span>
 				<div className="flex items-center gap-1">
-					<span className="text-sm text-gray-500">
+					<span className="text-text-muted text-sm">
 						{config.timeRemainingLabel}:
 					</span>
 					<KmTimeCountdown
@@ -127,15 +141,17 @@ export const QuestionView: React.FC = () => {
 						display="s"
 						className={cn(
 							'text-lg font-bold',
-							remaining <= 5000 && 'animate-pulse text-red-500'
+							remaining <= 5000 ? 'text-error animate-pulse' : 'text-primary'
 						)}
 					/>
 				</div>
 			</div>
 
 			{/* Question */}
-			<div className="rounded-xl bg-white p-4 shadow-md">
-				<h2 className="text-xl font-bold">{currentQuestion.question}</h2>
+			<div className="bg-surface border-primary/20 rounded-xl border-2 p-4 shadow-md">
+				<h2 className="text-text-heading text-xl font-bold">
+					{currentQuestion.question}
+				</h2>
 			</div>
 
 			{/* Answers */}
@@ -154,17 +170,15 @@ export const QuestionView: React.FC = () => {
 								onClick={() => handleAnswerClick(index)}
 								disabled={!selectable || hasAnswered}
 								className={cn(
-									'relative min-h-[60px] w-full rounded-xl border-2 p-4 text-left transition-all',
-									isSelected
-										? 'border-blue-500 bg-blue-50'
-										: selectable
-											? 'border-gray-200 bg-white hover:border-gray-300'
-											: 'cursor-not-allowed border-gray-200 bg-gray-50'
+									'relative min-h-[60px] w-full rounded-xl border-2 p-4 text-left font-semibold transition-all',
+									selectable || isSelected
+										? getAnswerColors(index, isSelected)
+										: 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-70'
 								)}
 							>
-								<span className="font-medium">{displayAnswer}</span>
+								<span>{displayAnswer}</span>
 								{isSelected && (
-									<Check className="absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 text-blue-500" />
+									<Check className="text-primary\ absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2" />
 								)}
 							</button>
 
@@ -189,12 +203,12 @@ export const QuestionView: React.FC = () => {
 
 			{/* Status */}
 			{hasAnswered && (
-				<div className="rounded-xl bg-green-50 p-4 text-center">
-					<Check className="mx-auto mb-2 h-8 w-8 text-green-500" />
-					<p className="font-bold text-green-700">
+				<div className="bg-success/10 rounded-xl p-4 text-center">
+					<Check className="text-success mx-auto mb-2 h-8 w-8" />
+					<p className="text-success-dark font-bold">
 						{config.answerSubmittedLabel}
 					</p>
-					<p className="text-sm text-gray-600">
+					<p className="text-text-muted text-sm">
 						{config.waitingForResultsLabel}
 					</p>
 				</div>

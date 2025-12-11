@@ -10,8 +10,7 @@ import { Check, Droplets, EyeOff, Shuffle, Snowflake } from 'lucide-react';
 import * as React from 'react';
 import { useSnapshot } from 'valtio';
 
-const TRAP_SELECTION_TIME = 30000; // 30 seconds
-const TRAP_SELECTION_FINAL_COUNTDOWN = 5000; // 5 seconds when all done
+const TRAP_SELECTION_TIME = 20000; // 30 seconds
 
 interface TrapOption {
 	type: TrapType;
@@ -27,40 +26,37 @@ const trapOptions: TrapOption[] = [
 		name: config.iceTrapName,
 		description: config.iceTrapDescription,
 		icon: <Snowflake className="h-6 w-6" />,
-		color: 'bg-cyan-100 border-cyan-400 text-cyan-700'
+		color: 'bg-trap-ice/20 border-trap-ice text-sky-700'
 	},
 	{
 		type: 'mud',
 		name: config.mudTrapName,
 		description: config.mudTrapDescription,
 		icon: <Droplets className="h-6 w-6" />,
-		color: 'bg-amber-100 border-amber-400 text-amber-700'
+		color: 'bg-trap-mud/20 border-trap-mud text-orange-700'
 	},
 	{
 		type: 'mixed',
 		name: config.mixedTrapName,
 		description: config.mixedTrapDescription,
 		icon: <Shuffle className="h-6 w-6" />,
-		color: 'bg-purple-100 border-purple-400 text-purple-700'
+		color: 'bg-trap-mixed/20 border-trap-mixed text-purple-700'
 	},
 	{
 		type: 'missing',
 		name: config.missingTrapName,
 		description: config.missingTrapDescription,
 		icon: <EyeOff className="h-6 w-6" />,
-		color: 'bg-gray-100 border-gray-400 text-gray-700'
+		color: 'bg-trap-missing/20 border-trap-missing text-slate-700'
 	}
 ];
 
 export const TrapSelectionView: React.FC = () => {
 	const serverTime = useServerTimer(250);
 	const { playSound } = useSoundEffects();
-	const {
-		players,
-		trapSelections,
-		trapSelectionStartTimestamp,
-		trapSelectionAllDoneTimestamp
-	} = useSnapshot(globalStore.proxy);
+	const { players, trapSelections, trapSelectionStartTimestamp } = useSnapshot(
+		globalStore.proxy
+	);
 	const onlineClientIds = useSnapshot(globalStore.connections).clientIds;
 
 	const [selectedTrap, setSelectedTrap] = React.useState<TrapType | null>(null);
@@ -86,15 +82,7 @@ export const TrapSelectionView: React.FC = () => {
 
 	// Calculate remaining time
 	const elapsed = serverTime - trapSelectionStartTimestamp;
-	let remaining: number;
-
-	if (trapSelectionAllDoneTimestamp > 0) {
-		// All done, use 5s countdown from that timestamp
-		const elapsedSinceDone = serverTime - trapSelectionAllDoneTimestamp;
-		remaining = Math.max(0, TRAP_SELECTION_FINAL_COUNTDOWN - elapsedSinceDone);
-	} else {
-		remaining = Math.max(0, TRAP_SELECTION_TIME - elapsed);
-	}
+	const remaining = Math.max(0, TRAP_SELECTION_TIME - elapsed);
 
 	const handleSubmit = async () => {
 		if (!selectedTrap || !selectedTarget || hasSubmitted) return;
@@ -113,15 +101,17 @@ export const TrapSelectionView: React.FC = () => {
 	return (
 		<div className="flex w-full max-w-md flex-col gap-6">
 			<div className="text-center">
-				<h2 className="text-2xl font-bold">{config.trapSelectionTitle}</h2>
-				<p className="text-gray-600">{config.trapSelectionSubtitle}</p>
+				<h2 className="text-text-heading text-2xl font-bold">
+					{config.trapSelectionTitle}
+				</h2>
+				<p className="text-text-muted">{config.trapSelectionSubtitle}</p>
 			</div>
 
 			<div className="flex items-center justify-center gap-2 text-lg">
 				<KmTimeCountdown
 					ms={remaining}
 					display="s"
-					className="text-2xl font-bold"
+					className="text-primary text-2xl font-bold"
 				/>
 			</div>
 
@@ -129,7 +119,9 @@ export const TrapSelectionView: React.FC = () => {
 				<>
 					{/* Trap Selection */}
 					<div>
-						<h3 className="mb-2 font-semibold">{config.selectTrapLabel}</h3>
+						<h3 className="text-text-heading mb-2 font-semibold">
+							{config.selectTrapLabel}
+						</h3>
 						<div className="grid grid-cols-2 gap-2">
 							{trapOptions.map((trap) => (
 								<button
@@ -139,12 +131,12 @@ export const TrapSelectionView: React.FC = () => {
 										'flex flex-col items-center gap-1 rounded-xl border-2 p-3 transition-all',
 										selectedTrap === trap.type
 											? trap.color
-											: 'border-gray-200 bg-white hover:border-gray-300'
+											: 'bg-surface hover:border-primary-light border-gray-200'
 									)}
 								>
 									{trap.icon}
 									<span className="text-sm font-medium">{trap.name}</span>
-									<span className="text-xs text-gray-500">
+									<span className="text-text-muted text-xs">
 										{trap.description}
 									</span>
 								</button>
@@ -154,7 +146,9 @@ export const TrapSelectionView: React.FC = () => {
 
 					{/* Target Selection */}
 					<div>
-						<h3 className="mb-2 font-semibold">{config.selectTargetLabel}</h3>
+						<h3 className="text-text-heading mb-2 font-semibold">
+							{config.selectTargetLabel}
+						</h3>
 						<div className="flex flex-col gap-2">
 							{targetPlayers.map((player) => (
 								<button
@@ -164,14 +158,14 @@ export const TrapSelectionView: React.FC = () => {
 									className={cn(
 										'flex items-center justify-between rounded-xl border-2 p-3 transition-all',
 										selectedTarget === player.clientId
-											? 'border-red-500 bg-red-50'
-											: 'border-gray-200 bg-white hover:border-gray-300',
+											? 'border-secondary bg-secondary/10'
+											: 'bg-surface hover:border-secondary/50 border-gray-200',
 										!selectedTrap && 'cursor-not-allowed opacity-50'
 									)}
 								>
 									<span className="font-medium">{player.name}</span>
 									{selectedTarget === player.clientId && (
-										<Check className="h-5 w-5 text-red-500" />
+										<Check className="text-secondary h-5 w-5" />
 									)}
 								</button>
 							))}
@@ -179,12 +173,12 @@ export const TrapSelectionView: React.FC = () => {
 					</div>
 				</>
 			) : (
-				<div className="rounded-xl bg-green-50 p-6 text-center">
-					<Check className="mx-auto mb-2 h-12 w-12 text-green-500" />
-					<p className="text-lg font-bold text-green-700">
+				<div className="bg-success/10 rounded-xl p-6 text-center">
+					<Check className="text-success mx-auto mb-2 h-12 w-12" />
+					<p className="text-success-dark text-lg font-bold">
 						{config.trapSelectedLabel}
 					</p>
-					<p className="text-gray-600">{config.waitingForOthersLabel}</p>
+					<p className="text-text-muted">{config.waitingForOthersLabel}</p>
 				</div>
 			)}
 		</div>

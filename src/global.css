@@ -1,19 +1,63 @@
 /* Font imports */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 /* Imports */
 @import 'tailwindcss';
 @import '@kokimoki/shared/styles.css';
 
-@plugin "@tailwindcss/typography";
+@plugin '@tailwindcss/typography';
 
 @theme {
-	--font-family: 'Noto Sans', sans-serif;
-	/* Add theme styling here */
+	--font-family: 'Nunito', sans-serif;
+
+	/* Primary brand colors */
+	--color-primary: #7c3aed;
+	--color-primary-light: #a78bfa;
+	--color-primary-dark: #5b21b6;
+	--color-secondary: #ec4899;
+	--color-accent: #06b6d4;
+
+	/* Background colors */
+	--color-page-bg: #f5f3ff;
+	--color-surface: #ffffff;
+	--color-surface-alt: #fffbeb;
+
+	/* Trap colors */
+	--color-trap-ice: #38bdf8;
+	--color-trap-mud: #fb923c;
+	--color-trap-mixed: #a855f7;
+	--color-trap-missing: #94a3b8;
+
+	/* Feedback colors */
+	--color-success: #84cc16;
+	--color-success-dark: #65a30d;
+	--color-error: #f87171;
+	--color-error-dark: #dc2626;
+	--color-warning: #facc15;
+
+	/* Text colors */
+	--color-text-heading: #4c1d95;
+	--color-text-body: #334155;
+	--color-text-muted: #94a3b8;
+
+	/* Answer button colors */
+	--color-answer-a-bg: #dbeafe;
+	--color-answer-a-border: #3b82f6;
+	--color-answer-a-text: #1e40af;
+	--color-answer-b-bg: #fef9c3;
+	--color-answer-b-border: #eab308;
+	--color-answer-b-text: #854d0e;
+	--color-answer-c-bg: #dcfce7;
+	--color-answer-c-border: #22c55e;
+	--color-answer-c-text: #166534;
+	--color-answer-d-bg: #fce7f3;
+	--color-answer-d-border: #ec4899;
+	--color-answer-d-text: #9d174d;
 }
 
 html,
 body {
-	background-color: var(--color-slate-100);
+	background-color: var(--color-page-bg);
 	font-family: var(--font-family);
+	color: var(--color-text-body);
 }

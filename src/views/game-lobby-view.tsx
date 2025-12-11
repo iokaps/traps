@@ -26,7 +26,7 @@ export const GameLobbyView: React.FC<React.PropsWithChildren<Props>> = ({
 	return (
 		<div
 			className={cn(
-				'w-full max-w-screen-sm rounded-lg border border-gray-200 bg-white shadow-md',
+				'border-primary/20 bg-surface w-full max-w-screen-sm rounded-lg border shadow-md',
 				className
 			)}
 		>
@@ -34,15 +34,15 @@ export const GameLobbyView: React.FC<React.PropsWithChildren<Props>> = ({
 				<Markdown>{config.waitingForHostMd}</Markdown>
 			</div>
 
-			<div className="border-t border-gray-200 p-6">
-				<h3 className="mb-3 font-bold">
+			<div className="border-primary/20 border-t p-6">
+				<h3 className="text-text-heading mb-3 font-bold">
 					{config.playersLabel} ({onlinePlayers.length})
 				</h3>
 				<div className="flex flex-wrap gap-2">
 					{onlinePlayers.map((name) => (
 						<span
 							key={name}
-							className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700"
+							className="bg-success/20 text-success-dark rounded-full px-3 py-1 text-sm font-medium"
 						>
 							{name}
 						</span>
