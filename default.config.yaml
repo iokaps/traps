@@ -1,39 +1,108 @@
 # yaml-language-server: $schema=./.kokimoki/schema.json
 
-# Translations
-title: 'Host Starter'
+# App title
+title: 'Traps'
 
-gameLobbyMd: |
+# Game configuration defaults
+defaultTotalRounds: 10
+defaultQuestionTimeSeconds: 15
+
+# Lobby
+lobbyTitle: 'Traps'
+lobbySubtitle: 'Real-time Trivia with Sabotage!'
+waitingForHostMd: |
   # Waiting for game to start...
-  The game will start once the host presses the start button.
+  The host will start the game soon.
+playersLabel: 'Players'
+startGameButton: 'Start Game'
+configureGameTitle: 'Game Settings'
+totalRoundsLabel: 'Total Rounds'
+questionTimeLabel: 'Question Time (seconds)'
 
-connectionsMd: |
-  # Connections example
+# Category Vote
+categoryVoteTitle: 'Vote for a Category'
+categoryVoteSubtitle: 'Choose a topic for the next question'
+votesLabel: 'votes'
+categoryVoteTimeLabel: 'Time remaining'
 
-sharedStateMd: |
-  # Shared State example
+# Trap Selection
+trapSelectionTitle: 'Throw a Trap!'
+trapSelectionSubtitle: 'Select a trap and choose your target'
+selectTrapLabel: 'Select Trap'
+selectTargetLabel: 'Select Target'
+trapSelectedLabel: 'Trap Ready!'
+waitingForOthersLabel: 'Waiting for other players...'
 
-players: 'Players'
-timeElapsed: 'Time elapsed'
-startButton: 'Start Game'
-stopButton: 'Stop Game'
+# Trap names and descriptions
+iceTrapName: 'Ice Trap'
+iceTrapDescription: 'Freezes answers - tap 3 times to break'
+mudTrapName: 'Mud Trap'
+mudTrapDescription: 'Covers answers - swipe to reveal'
+mixedTrapName: 'Mixed Letters'
+mixedTrapDescription: 'Scrambles the letters in answers'
+missingTrapName: 'Missing Letters'
+missingTrapDescription: 'Removes letters from answers'
 
-loading: 'Loading...'
+# Question
+questionTitle: 'Question'
+roundLabel: 'Round'
+timeRemainingLabel: 'Time'
+tapToBreakIceLabel: 'Tap 3x to break ice'
+swipeToRevealLabel: 'Swipe to reveal'
+answerSubmittedLabel: 'Answer submitted!'
+waitingForResultsLabel: 'Waiting for results...'
 
-menuTitle: 'Menu'
-menuConnections: 'Connections'
-menuGameLobby: 'Lobby'
+# Round Results
+roundResultsTitle: 'Round Results'
+correctAnswerLabel: 'Correct Answer'
+pointsEarnedLabel: 'Points Earned'
+leaderboardTitle: 'Leaderboard'
+correctLabel: 'Correct!'
+incorrectLabel: 'Incorrect'
+noAnswerLabel: 'No answer'
 
-playerNameTitle: 'Enter Your Name'
-playerNamePlaceholder: 'Your name...'
-playerNameLabel: 'Name:'
-playerNameButton: 'Continue'
+# Final Results
+finalResultsTitle: 'Game Over!'
+winnerLabel: 'Winner'
+finalScoresLabel: 'Final Scores'
+playAgainButton: 'Play Again'
+backToLobbyButton: 'Back to Lobby'
 
+# Host/Presenter labels
 hostLabel: 'Host'
 presenterLabel: 'Presenter'
-
 gameLinksTitle: 'Game Links'
 playerLinkLabel: 'Player Link'
 presenterLinkLabel: 'Presenter Link'
 
+# Player profile
+playerNameTitle: 'Enter Your Name'
+playerNamePlaceholder: 'Your name...'
+playerNameLabel: 'Name:'
+playerNameButton: 'Join Game'
+
+# Menu
+menuTitle: 'Menu'
 menuAriaLabel: 'Open menu drawer'
+
+# Misc
+loading: 'Loading...'
+onlineLabel: 'Online'
+offlineLabel: 'Offline'
+
+# Presenter specific
+presenterTrapActivityTitle: 'Trap Activity'
+presenterAnswerProgressTitle: 'Answer Progress'
+answeredLabel: 'answered'
+
+# AI prompts
+categoryGenerationPrompt: |
+  Generate 4 diverse general knowledge topics for a trivia game.
+  Topics should be specific enough to generate questions but broad enough for variety.
+  Examples: "Ancient Egyptian History", "90s Pop Music", "Space Exploration", "World Cuisine".
+  Return as JSON array of 4 strings.
+
+questionGenerationPrompt: |
+  Generate 1 medium-difficulty trivia question about the topic.
+  Return as JSON with: question (string), answers (array of 4 strings), correctIndex (number 0-3).
+  All wrong answers should be plausible. No trick questions.

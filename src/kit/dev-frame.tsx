@@ -62,12 +62,14 @@ export const DevFrame: FC<Props> = ({ clientKey, context }) => {
 				</button>
 			</div>
 
-			<iframe
-				ref={iframeRef}
-				className="h-full w-full"
-				title={clientKey}
-				src={link}
-			/>
+			{link && (
+				<iframe
+					ref={iframeRef}
+					className="h-full w-full"
+					title={clientKey}
+					src={link}
+				/>
+			)}
 		</div>
 	);
 };
