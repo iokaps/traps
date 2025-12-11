@@ -79,7 +79,6 @@ export const schema = z.object({
 	finalResultsTitle: z.string().default('Game Over!'),
 	winnerLabel: z.string().default('Winner'),
 	finalScoresLabel: z.string().default('Final Scores'),
-	playAgainButton: z.string().default('Play Again'),
 	backToLobbyButton: z.string().default('Back to Lobby'),
 
 	// Host/Presenter labels
@@ -110,11 +109,6 @@ export const schema = z.object({
 	answeredLabel: z.string().default('answered'),
 
 	// AI prompts (for customization)
-	categoryGenerationPrompt: z
-		.string()
-		.default(
-			'Generate 4 diverse general knowledge topics for a trivia game. Topics should be specific enough to generate questions but broad enough for variety. Examples: "Ancient Egyptian History", "90s Pop Music", "Space Exploration", "World Cuisine". Return as JSON array of 4 strings.'
-		),
 	questionGenerationPrompt: z
 		.string()
 		.default(

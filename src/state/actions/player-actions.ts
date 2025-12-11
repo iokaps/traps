@@ -19,6 +19,13 @@ export const playerActions = {
 		);
 	},
 
+	// Clear player name (for changing name)
+	async clearPlayerName() {
+		await kmClient.transact([playerStore], ([playerState]) => {
+			playerState.name = '';
+		});
+	},
+
 	// Record a tap on ice for a specific answer index
 	async recordIceTap(answerIndex: number) {
 		await kmClient.transact([playerStore], ([playerState]) => {

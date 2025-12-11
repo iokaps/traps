@@ -15,13 +15,21 @@ A multiplayer trivia game where players compete to answer AI-generated medium-di
 │                              LOBBY                                   │
 │  - Host configures: total rounds, question time (default 15s)       │
 │  - Players join and enter their names                               │
-│  - Host starts game when ready                                      │
+│  - Host starts game when ready (minimum 2 players)                  │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         GET READY (5s)                               │
+│  - Shows countdown "Get Ready!" animation                           │
+│  - 4 random categories selected from pool in background             │
+│  - Auto-advances when countdown complete AND categories ready       │
 └─────────────────────────────────────────────────────────────────────┘
                                   │
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         CATEGORY VOTE                                │
-│  - AI generates 4 general knowledge topics                          │
+│  - 4 random categories from predefined pool (30 topics)             │
 │  - All players see same 4 options                                   │
 │  - Players vote for preferred category                              │
 │  - Majority wins, random tie-breaker                                │
@@ -32,7 +40,8 @@ A multiplayer trivia game where players compete to answer AI-generated medium-di
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         TRAP SELECTION                               │
-│  - 30 second timer (reduces to 5s when all players done)            │
+│  - 20 second timer (always runs full duration)                      │
+│  - AI generates question in background during this phase            │
 │  - Each player MUST select one trap to throw                        │
 │  - Each player MUST select a target player                          │
 │  - All 4 trap types available every round                           │
@@ -44,7 +53,7 @@ A multiplayer trivia game where players compete to answer AI-generated medium-di
                                   ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │                           QUESTION                                   │
-│  - AI generates 1 medium-difficulty question for selected category  │
+│  - AI-generated medium-difficulty question for selected category    │
 │  - 4 possible answers, only 1 correct                               │
 │  - Timer based on host config (default 15s)                         │
 │  - Players must clear traps before answering                        │
@@ -68,7 +77,7 @@ A multiplayer trivia game where players compete to answer AI-generated medium-di
                          YES              NO
                           │               │
                           ▼               ▼
-               [CATEGORY VOTE]    ┌─────────────────────┐
+               [GET READY]        ┌─────────────────────┐
                                   │    FINAL RESULTS    │
                                   │  - Podium display   │
                                   │  - Final scores     │
@@ -153,12 +162,13 @@ Examples (15s question time):
 
 ## Phase Timings
 
-| Phase          | Duration                   | Notes                               |
-| -------------- | -------------------------- | ----------------------------------- |
-| Category Vote  | 15 seconds                 | Or when all online players voted    |
-| Trap Selection | 30 seconds                 | Reduces to 5s when all players done |
-| Question       | Configurable (15s default) | Ends early when all answered        |
-| Round Results  | 5 seconds                  | Auto-advance to next phase          |
+| Phase          | Duration                   | Notes                                         |
+| -------------- | -------------------------- | --------------------------------------------- |
+| Get Ready      | 5 seconds                  | Countdown + category generation in background |
+| Category Vote  | 15 seconds                 | Auto-advances when time expires               |
+| Trap Selection | 20 seconds                 | Always runs full duration (AI generates Q)    |
+| Question       | Configurable (15s default) | Ends early when all online players answered   |
+| Round Results  | 5 seconds                  | Auto-advance to next phase                    |
 
 ## Technical Requirements
 
@@ -202,38 +212,43 @@ Examples (15s question time):
 
 1. **Create Profile** - Name entry
 2. **Game Lobby** - Waiting for host to start
-3. **Category Vote** - 4 topic buttons with vote counts
-4. **Trap Selection** - 4 trap types + player list + timer
-5. **Question** - Timer + 4 answers + trap overlays
-6. **Round Results** - Points earned + leaderboard
-7. **Final Results** - Podium with top 3
+3. **Game Starting** - "Get Ready!" countdown
+4. **Category Vote** - 4 topic buttons with vote counts
+5. **Trap Selection** - 4 trap types + player list + timer
+6. **Question** - Timer + 4 answers + trap overlays
+7. **Round Results** - Points earned + leaderboard
+8. **Final Results** - Podium with top 3 + animated scores
 
 ### Host Views
 
 1. **Lobby** - Configuration controls + player list + start button
-2. **Game Monitor** - Current question + trap activity + scores
+2. **Game Monitor** - Current phase + question + trap activity + scores
 
 ### Presenter Views
 
 1. **Lobby** - QR code + player list
-2. **Category Vote** - Live vote counts
-3. **Trap Selection** - Trap activity feed (who threw what at whom)
-4. **Question** - Question text + timer + answer progress
-5. **Round Results** - Animated score reveal + leaderboard
-6. **Final Results** - Podium with confetti
+2. **Category Vote** - Live vote counts + leaderboard sidebar
+3. **Trap Selection** - Trap activity feed + leaderboard sidebar
+4. **Question** - Question + timer + answer progress + leaderboard sidebar
+5. **Round Results** - Correct answer + leaderboard with round points
+6. **Final Results** - Winner announcement + podium with confetti
 
-## AI Prompts
+## Categories & AI
 
-### Category Generation
+### Category Pool (30 Topics)
 
-```
-Generate 4 diverse general knowledge topics for a trivia game.
-Return as JSON array of strings.
-Topics should be specific enough to generate questions but broad enough for variety.
-Examples: "Ancient Egyptian History", "90s Pop Music", "Space Exploration", "World Cuisine"
-```
+Categories are randomly selected from this predefined pool each round:
 
-### Question Generation
+- World Geography, Classic Movies, Science & Nature, Sports History
+- Pop Music, Ancient History, Food & Cooking, Technology
+- Literature, Space Exploration, World Cultures, Famous Inventions
+- Animals, Art & Artists, Television Shows, Mythology
+- Olympics, Video Games, World Capitals, Ocean Life
+- Famous Scientists, Musical Instruments, World Languages, Dinosaurs
+- Weather & Climate, Famous Buildings, Board Games, Superheroes
+- National Parks, Desserts & Sweets
+
+### Question Generation (AI)
 
 ```
 Generate 1 medium-difficulty trivia question about [CATEGORY].

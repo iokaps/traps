@@ -36,6 +36,55 @@ const TrapIcon: React.FC<{ type: string }> = ({ type }) => {
 	}
 };
 
+interface CompactLeaderboardProps {
+	players: Array<{
+		clientId: string;
+		name: string;
+		score: number;
+		isOnline: boolean;
+	}>;
+}
+
+const CompactLeaderboard: React.FC<CompactLeaderboardProps> = ({ players }) => {
+	return (
+		<div className="h-fit rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+			<h3 className="mb-3 text-lg font-bold text-gray-700">
+				{config.leaderboardTitle}
+			</h3>
+			<div className="flex flex-col gap-1.5">
+				{players.map((player, index) => (
+					<div
+						key={player.clientId}
+						className={`flex items-center justify-between rounded-lg p-2 ${
+							player.isOnline ? 'bg-gray-50' : 'bg-gray-50/50 opacity-60'
+						}`}
+					>
+						<div className="flex items-center gap-2">
+							<span
+								className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
+									index === 0
+										? 'bg-yellow-400 text-yellow-900'
+										: index === 1
+											? 'bg-gray-300 text-gray-700'
+											: index === 2
+												? 'bg-amber-600 text-amber-100'
+												: 'bg-gray-200 text-gray-600'
+								}`}
+							>
+								{index + 1}
+							</span>
+							<span className="truncate text-sm font-medium">
+								{player.name}
+							</span>
+						</div>
+						<span className="text-sm font-bold">{player.score}</span>
+					</div>
+				))}
+			</div>
+		</div>
+	);
+};
+
 const PresenterContent: React.FC = () => {
 	const { title } = config;
 	const serverTime = useServerTimer(250);
@@ -186,7 +235,7 @@ const PresenterContent: React.FC = () => {
 
 				{/* Category Vote View */}
 				{phase === 'category-vote' && (
-					<>
+					<div className="grid grid-cols-[1fr_280px] gap-6">
 						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
 							<div className="mb-4 flex items-center justify-between">
 								<h2 className="text-2xl font-bold">
@@ -225,145 +274,154 @@ const PresenterContent: React.FC = () => {
 								})}
 							</div>
 						</div>
-					</>
+						<CompactLeaderboard players={sortedPlayers} />
+					</div>
 				)}
 
 				{/* Trap Selection View */}
 				{phase === 'trap-selection' && (
-					<>
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<div className="mb-4 flex items-center justify-between">
-								<div>
-									<h2 className="text-2xl font-bold">
-										{config.trapSelectionTitle}
-									</h2>
-									<p className="text-gray-600">
-										Category:{' '}
-										<span className="font-bold">{selectedCategory}</span>
-									</p>
-								</div>
-								<KmTimeCountdown
-									ms={getTrapSelectionRemaining()}
-									display="s"
-									className="text-3xl font-bold"
-								/>
-							</div>
-						</div>
-
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<h2 className="mb-4 text-xl font-bold">
-								{config.presenterTrapActivityTitle}
-							</h2>
-							<div className="flex flex-col gap-2">
-								{Object.entries(trapSelections).map(([fromId, selection]) => {
-									const fromPlayer = players[fromId];
-									const toPlayer = players[selection.targetId];
-									if (!fromPlayer || !toPlayer) return null;
-
-									return (
-										<div
-											key={fromId}
-											className="flex items-center gap-2 rounded-lg bg-gray-50 p-3"
-										>
-											<span className="font-medium">{fromPlayer.name}</span>
-											<span className="text-gray-400">→</span>
-											<TrapIcon type={selection.trapType} />
-											<span className="text-gray-400">→</span>
-											<span className="font-medium">{toPlayer.name}</span>
-										</div>
-									);
-								})}
-							</div>
-						</div>
-					</>
-				)}
-
-				{/* Question View */}
-				{phase === 'question' && currentQuestion && (
-					<>
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<div className="mb-4 flex items-center justify-between">
-								<span className="text-gray-500">{config.questionTitle}</span>
-								<KmTimeCountdown
-									ms={getQuestionRemaining()}
-									display="s"
-									className={`text-3xl font-bold ${
-										getQuestionRemaining() <= 5000
-											? 'animate-pulse text-red-500'
-											: ''
-									}`}
-								/>
-							</div>
-							<h2 className="mb-6 text-3xl font-bold">
-								{currentQuestion.question}
-							</h2>
-
-							<div className="grid grid-cols-2 gap-4">
-								{currentQuestion.answers.map((answer, index) => (
-									<div
-										key={index}
-										className="rounded-xl border-2 border-gray-200 bg-gray-50 p-4 text-lg"
-									>
-										{answer}
+					<div className="grid grid-cols-[1fr_280px] gap-6">
+						<div className="flex flex-col gap-6">
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<div className="mb-4 flex items-center justify-between">
+									<div>
+										<h2 className="text-2xl font-bold">
+											{config.trapSelectionTitle}
+										</h2>
+										<p className="text-gray-600">
+											Category:{' '}
+											<span className="font-bold">{selectedCategory}</span>
+										</p>
 									</div>
-								))}
-							</div>
-						</div>
-
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<h2 className="mb-4 text-xl font-bold">
-								{config.presenterAnswerProgressTitle}
-							</h2>
-							<div className="flex items-center gap-4">
-								<div className="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
-									<div
-										className="h-full bg-green-500 transition-all"
-										style={{
-											width: `${
-												(Object.keys(playerAnswers).length /
-													sortedPlayers.filter((p) => p.isOnline).length) *
-												100
-											}%`
-										}}
+									<KmTimeCountdown
+										ms={getTrapSelectionRemaining()}
+										display="s"
+										className="text-3xl font-bold"
 									/>
 								</div>
-								<span className="font-bold">
-									{Object.keys(playerAnswers).length}/
-									{sortedPlayers.filter((p) => p.isOnline).length}{' '}
-									{config.answeredLabel}
-								</span>
 							</div>
-						</div>
 
-						{/* Trap Activity */}
-						{Object.keys(activeTraps).length > 0 && (
 							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
 								<h2 className="mb-4 text-xl font-bold">
 									{config.presenterTrapActivityTitle}
 								</h2>
-								<div className="flex flex-wrap gap-2">
-									{Object.entries(activeTraps).map(([targetId, traps]) => {
-										const targetPlayer = players[targetId];
-										if (!targetPlayer) return null;
+								<div className="flex flex-col gap-2">
+									{Object.entries(trapSelections).map(([fromId, selection]) => {
+										const fromPlayer = players[fromId];
+										const toPlayer = players[selection.targetId];
+										if (!fromPlayer || !toPlayer) return null;
 
 										return (
 											<div
-												key={targetId}
-												className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2"
+												key={fromId}
+												className="flex items-center gap-2 rounded-lg bg-gray-50 p-3"
 											>
-												<span className="font-medium">{targetPlayer.name}</span>
-												<div className="flex gap-1">
-													{traps.map((trap, i) => (
-														<TrapIcon key={i} type={trap.trapType} />
-													))}
-												</div>
+												<span className="font-medium">{fromPlayer.name}</span>
+												<span className="text-gray-400">→</span>
+												<TrapIcon type={selection.trapType} />
+												<span className="text-gray-400">→</span>
+												<span className="font-medium">{toPlayer.name}</span>
 											</div>
 										);
 									})}
 								</div>
 							</div>
-						)}
-					</>
+						</div>
+						<CompactLeaderboard players={sortedPlayers} />
+					</div>
+				)}
+
+				{/* Question View */}
+				{phase === 'question' && currentQuestion && (
+					<div className="grid grid-cols-[1fr_280px] gap-6">
+						<div className="flex flex-col gap-6">
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<div className="mb-4 flex items-center justify-between">
+									<span className="text-gray-500">{config.questionTitle}</span>
+									<KmTimeCountdown
+										ms={getQuestionRemaining()}
+										display="s"
+										className={`text-3xl font-bold ${
+											getQuestionRemaining() <= 5000
+												? 'animate-pulse text-red-500'
+												: ''
+										}`}
+									/>
+								</div>
+								<h2 className="mb-6 text-3xl font-bold">
+									{currentQuestion.question}
+								</h2>
+
+								<div className="grid grid-cols-2 gap-4">
+									{currentQuestion.answers.map((answer, index) => (
+										<div
+											key={index}
+											className="rounded-xl border-2 border-gray-200 bg-gray-50 p-4 text-lg"
+										>
+											{answer}
+										</div>
+									))}
+								</div>
+							</div>
+
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<h2 className="mb-4 text-xl font-bold">
+									{config.presenterAnswerProgressTitle}
+								</h2>
+								<div className="flex items-center gap-4">
+									<div className="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
+										<div
+											className="h-full bg-green-500 transition-all"
+											style={{
+												width: `${
+													(Object.keys(playerAnswers).length /
+														sortedPlayers.filter((p) => p.isOnline).length) *
+													100
+												}%`
+											}}
+										/>
+									</div>
+									<span className="font-bold">
+										{Object.keys(playerAnswers).length}/
+										{sortedPlayers.filter((p) => p.isOnline).length}{' '}
+										{config.answeredLabel}
+									</span>
+								</div>
+							</div>
+
+							{/* Trap Activity */}
+							{Object.keys(activeTraps).length > 0 && (
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+									<h2 className="mb-4 text-xl font-bold">
+										{config.presenterTrapActivityTitle}
+									</h2>
+									<div className="flex flex-wrap gap-2">
+										{Object.entries(activeTraps).map(([targetId, traps]) => {
+											const targetPlayer = players[targetId];
+											if (!targetPlayer) return null;
+
+											return (
+												<div
+													key={targetId}
+													className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2"
+												>
+													<span className="font-medium">
+														{targetPlayer.name}
+													</span>
+													<div className="flex gap-1">
+														{traps.map((trap, i) => (
+															<TrapIcon key={i} type={trap.trapType} />
+														))}
+													</div>
+												</div>
+											);
+										})}
+									</div>
+								</div>
+							)}
+						</div>
+						<CompactLeaderboard players={sortedPlayers} />
+					</div>
 				)}
 
 				{/* Round Results View */}

@@ -69,7 +69,6 @@ export interface GlobalState {
 
 	// Trap selection timing
 	trapSelectionStartTimestamp: number;
-	trapSelectionAllDoneTimestamp: number; // When all players finished, start 5s countdown
 
 	// Current question
 	currentQuestion: CurrentQuestion | null;
@@ -110,7 +109,6 @@ const initialState: GlobalState = {
 	trapSelections: {},
 	activeTraps: {},
 	trapSelectionStartTimestamp: 0,
-	trapSelectionAllDoneTimestamp: 0,
 
 	currentQuestion: null,
 	playerAnswers: {},

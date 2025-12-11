@@ -32,7 +32,6 @@ export const globalActions = {
 			globalState.trapSelections = {};
 			globalState.activeTraps = {};
 			globalState.trapSelectionStartTimestamp = 0; // Clear old timestamps
-			globalState.trapSelectionAllDoneTimestamp = 0;
 			globalState.currentQuestion = null;
 			globalState.playerAnswers = {};
 			globalState.isGeneratingQuestion = false; // Reset generation lock
@@ -175,7 +174,6 @@ export const globalActions = {
 			globalState.trapSelections = {};
 			globalState.activeTraps = {};
 			globalState.trapSelectionStartTimestamp = kmClient.serverTimestamp();
-			globalState.trapSelectionAllDoneTimestamp = 0;
 			globalState.currentQuestion = null;
 			globalState.isGeneratingQuestion = false; // Reset lock for new round
 		});
@@ -199,15 +197,6 @@ export const globalActions = {
 				trapType,
 				fromPlayerId: kmClient.id
 			});
-		});
-	},
-
-	// Mark that all players have finished trap selection, start 5s countdown
-	async markAllTrapSelectionsDone() {
-		await kmClient.transact([globalStore], ([globalState]) => {
-			if (globalState.trapSelectionAllDoneTimestamp === 0) {
-				globalState.trapSelectionAllDoneTimestamp = kmClient.serverTimestamp();
-			}
 		});
 	},
 
@@ -373,7 +362,6 @@ export const globalActions = {
 			globalState.trapSelections = {};
 			globalState.activeTraps = {};
 			globalState.trapSelectionStartTimestamp = 0;
-			globalState.trapSelectionAllDoneTimestamp = 0;
 			globalState.currentQuestion = null;
 			globalState.playerAnswers = {};
 			globalState.categoryVoteStartTimestamp = 0;
