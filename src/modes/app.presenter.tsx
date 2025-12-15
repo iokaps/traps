@@ -73,11 +73,13 @@ const CompactLeaderboard: React.FC<CompactLeaderboardProps> = ({ players }) => {
 							>
 								{index + 1}
 							</span>
-							<span className="truncate text-sm font-medium">
+							<span className="truncate text-sm font-medium text-gray-800">
 								{player.name}
 							</span>
 						</div>
-						<span className="text-sm font-bold">{player.score}</span>
+						<span className="text-sm font-bold text-gray-800">
+							{player.score}
+						</span>
 					</div>
 				))}
 			</div>
@@ -469,7 +471,7 @@ const PresenterContent: React.FC = () => {
 												>
 													{index + 1}
 												</span>
-												<span className="text-lg font-medium">
+												<span className="text-lg font-medium text-gray-800">
 													{player.name}
 												</span>
 											</div>
@@ -477,7 +479,7 @@ const PresenterContent: React.FC = () => {
 												{roundPoints > 0 && (
 													<span className="text-green-600">+{roundPoints}</span>
 												)}
-												<span className="text-xl font-bold">
+												<span className="text-xl font-bold text-gray-800">
 													{player.score}
 												</span>
 											</div>
@@ -539,9 +541,13 @@ const PresenterContent: React.FC = () => {
 											>
 												{index + 1}
 											</span>
-											<span className="text-lg font-medium">{player.name}</span>
+											<span className="text-lg font-medium text-gray-800">
+												{player.name}
+											</span>
 										</div>
-										<span className="text-xl font-bold">{player.score}</span>
+										<span className="text-xl font-bold text-gray-800">
+											{player.score}
+										</span>
 									</div>
 								))}
 							</div>

@@ -1,4 +1,3 @@
-import { PlayerMenu } from '@/components/player/menu';
 import { NameLabel } from '@/components/player/name-label';
 import { config } from '@/config';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -62,9 +61,7 @@ const App: React.FC = () => {
 	return (
 		<KmModalProvider>
 			<PlayerLayout.Root>
-				<PlayerLayout.Header>
-					{phase === 'lobby' && <PlayerMenu />}
-				</PlayerLayout.Header>
+				<PlayerLayout.Header />
 
 				<PlayerLayout.Main>
 					{currentView === 'lobby' && <GameLobbyView />}
