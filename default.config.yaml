@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./.kokimoki/schema.json
 
 # App title
-title: <title>Host Starter</title>
+title: 'Traps'
 
 # Game configuration defaults
 defaultTotalRounds: 10
@@ -69,6 +69,8 @@ noAnswerLabel: 'No answer'
 # Final Results
 finalResultsTitle: 'Game Over!'
 winnerLabel: 'Winner'
+winnerCelebrationTitle: '🎉 You Won! 🎉'
+winnerCelebrationSubtitle: 'Champion of the game!'
 finalScoresLabel: 'Final Scores'
 backToLobbyButton: 'Back to Lobby'
 
@@ -104,9 +106,3 @@ questionGenerationPrompt: |
   Generate 1 medium-difficulty trivia question about the topic.
   Return as JSON with: question (string), answers (array of 4 strings), correctIndex (number 0-3).
   All wrong answers should be plausible. No trick questions.
-
-
-<p className="text-2xl font-black">🎉 You Won! 🎉</p>
-						<p className="mt-1 text-sm font-medium text-yellow-800">
-							Champion of the game!
-						</p>

@@ -78,6 +78,8 @@ export const schema = z.object({
 	// Final Results
 	finalResultsTitle: z.string().default('Game Over!'),
 	winnerLabel: z.string().default('Winner'),
+	winnerCelebrationTitle: z.string().default('🎉 You Won! 🎉'),
+	winnerCelebrationSubtitle: z.string().default('Champion of the game!'),
 	finalScoresLabel: z.string().default('Final Scores'),
 	backToLobbyButton: z.string().default('Back to Lobby'),
 
