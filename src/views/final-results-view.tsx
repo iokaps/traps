@@ -247,9 +247,9 @@ const FinalResultsContent: React.FC = () => {
 					</div>
 					<div className="relative">
 						<Crown className="mx-auto mb-2 h-16 w-16 animate-bounce text-yellow-700" />
-						<p className="text-2xl font-black">🎉 You Won! 🎉</p>
+						<p className="text-2xl font-black">{config.winnerCelebrationTitle}</p>
 						<p className="mt-1 text-sm font-medium text-yellow-800">
-							Champion of the game!
+							{config.winnerCelebrationSubtitle}
 						</p>
 					</div>
 				</div>
