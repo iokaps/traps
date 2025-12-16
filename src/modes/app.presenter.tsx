@@ -107,7 +107,6 @@ const PresenterContent: React.FC = () => {
 		trapSelectionStartTimestamp,
 		currentQuestion,
 		playerAnswers,
-		roundResultsStartTimestamp
 	} = useSnapshot(globalStore.proxy);
 	const onlineClientIds = useSnapshot(globalStore.connections).clientIds;
 	const confetti = useKmConfettiContext();
