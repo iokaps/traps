@@ -170,13 +170,16 @@ const PresenterContent: React.FC = () => {
 	};
 
 	// Podium data - only include players that exist
+	// Colors are set to contrast with default podium backgrounds (gold, silver, bronze)
+	const podiumColors = ['#713f12', '#374151', '#431407']; // dark yellow, dark gray, dark amber
 	const podiumEntries = sortedPlayers
 		.slice(0, 3)
 		.filter((player) => player && player.name)
-		.map((player) => ({
+		.map((player, index) => ({
 			id: player.clientId,
 			name: player.name,
-			points: player.score ?? 0
+			points: player.score ?? 0,
+			color: podiumColors[index] || '#374151'
 		}));
 
 	return (
