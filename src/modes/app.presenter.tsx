@@ -19,7 +19,6 @@ import { useSnapshot } from 'valtio';
 
 const CATEGORY_VOTE_TIME = 15000;
 const TRAP_SELECTION_TIME = 20000;
-const ROUND_RESULTS_TIME = 5000;
 
 const TrapIcon: React.FC<{ type: string }> = ({ type }) => {
 	switch (type) {
