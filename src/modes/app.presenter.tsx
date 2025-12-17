@@ -106,7 +106,7 @@ const PresenterContent: React.FC = () => {
 		activeTraps,
 		trapSelectionStartTimestamp,
 		currentQuestion,
-		playerAnswers,
+		playerAnswers
 	} = useSnapshot(globalStore.proxy);
 	const onlineClientIds = useSnapshot(globalStore.connections).clientIds;
 	const confetti = useKmConfettiContext();
@@ -202,14 +202,6 @@ const PresenterContent: React.FC = () => {
 								<h2 className="text-2xl font-bold">{config.lobbyTitle}</h2>
 								<p className="text-gray-600">{config.lobbySubtitle}</p>
 								<KmQrCode data={playerLink} size={300} interactive={false} />
-								<a
-									href={playerLink}
-									target="_blank"
-									rel="noreferrer"
-									className="text-blue-600 underline hover:text-blue-700"
-								>
-									{config.playerLinkLabel}
-								</a>
 							</div>
 						</div>
 

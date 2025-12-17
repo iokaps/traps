@@ -54,6 +54,7 @@ export interface GlobalState {
 	// AI generation locks (prevent race conditions)
 	isGeneratingCategories: boolean;
 	isGeneratingQuestion: boolean;
+	questionGenerationFailed: boolean;
 
 	// Players
 	players: Record<string, PlayerInfo>;
@@ -99,6 +100,7 @@ const initialState: GlobalState = {
 
 	isGeneratingCategories: false,
 	isGeneratingQuestion: false,
+	questionGenerationFailed: false,
 
 	players: {},
 

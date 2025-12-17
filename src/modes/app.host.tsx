@@ -22,7 +22,9 @@ const App: React.FC = () => {
 		currentRound,
 		currentQuestion,
 		trapSelections,
-		playerAnswers
+		playerAnswers,
+		questionGenerationFailed,
+		isGeneratingQuestion
 	} = useSnapshot(globalStore.proxy);
 	const onlineClientIds = useSnapshot(globalStore.connections).clientIds;
 
@@ -178,7 +180,21 @@ const App: React.FC = () => {
 								<p className="font-medium">{currentQuestion.question}</p>
 							</div>
 						)}
-
+						{/* Question Generation Failed - Retry Button */}
+						{questionGenerationFailed && (
+							<div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
+								<p className="mb-3 font-medium text-red-700">
+									{config.questionGenerationFailedLabel}
+								</p>
+								<button
+									onClick={() => globalActions.retryQuestionGeneration()}
+									disabled={isGeneratingQuestion}
+									className="rounded-lg bg-blue-500 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+								>
+									{isGeneratingQuestion ? config.loading : config.retryButton}
+								</button>
+							</div>
+						)}
 						<button
 							onClick={handleResetGame}
 							className="rounded-lg bg-red-500 px-4 py-2 font-medium text-white transition-colors hover:bg-red-600"

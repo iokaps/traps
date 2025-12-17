@@ -95,6 +95,8 @@ menuAriaLabel: 'Open menu drawer'
 loading: 'Loading...'
 onlineLabel: 'Online'
 offlineLabel: 'Offline'
+retryButton: 'Retry'
+questionGenerationFailedLabel: 'Question generation failed. Please try again.'
 
 # Presenter specific
 presenterTrapActivityTitle: 'Trap Activity'

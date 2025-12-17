@@ -176,6 +176,7 @@ export const globalActions = {
 			globalState.trapSelectionStartTimestamp = kmClient.serverTimestamp();
 			globalState.currentQuestion = null;
 			globalState.isGeneratingQuestion = false; // Reset lock for new round
+			globalState.questionGenerationFailed = false; // Reset failure flag
 		});
 	},
 
@@ -260,11 +261,20 @@ export const globalActions = {
 			});
 		} catch (error) {
 			console.error('Question generation failed:', error);
-			// Release lock on error
+			// Release lock on error and set failure flag
 			await kmClient.transact([globalStore], ([globalState]) => {
 				globalState.isGeneratingQuestion = false;
+				globalState.questionGenerationFailed = true;
 			});
 		}
+	},
+
+	// Retry question generation (host only)
+	async retryQuestionGeneration() {
+		await kmClient.transact([globalStore], ([globalState]) => {
+			globalState.questionGenerationFailed = false;
+		});
+		await globalActions.startQuestion();
 	},
 
 	// Submit an answer

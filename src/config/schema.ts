@@ -104,6 +104,10 @@ export const schema = z.object({
 	loading: z.string().default('Loading...'),
 	onlineLabel: z.string().default('Online'),
 	offlineLabel: z.string().default('Offline'),
+	retryButton: z.string().default('Retry'),
+	questionGenerationFailedLabel: z
+		.string()
+		.default('Question generation failed. Please try again.'),
 
 	// Presenter specific
 	presenterTrapActivityTitle: z.string().default('Trap Activity'),
