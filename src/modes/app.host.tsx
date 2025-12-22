@@ -155,7 +155,7 @@ const App: React.FC = () => {
 
 							{onlinePlayers.length < 2 && (
 								<p className="text-sm text-gray-500">
-									Need at least 2 players to start
+									{config.needMorePlayersMessage}
 								</p>
 							)}
 						</div>
@@ -233,7 +233,7 @@ const App: React.FC = () => {
 													player.hasTrap ? 'text-green-600' : 'text-gray-400'
 												}`}
 											>
-												{player.hasTrap ? '✓ Trap' : '...'}
+												{player.hasTrap ? config.trapSubmittedLabel : '...'}
 											</span>
 										)}
 										{phase === 'question' && (
@@ -244,7 +244,9 @@ const App: React.FC = () => {
 														: 'text-gray-400'
 												}`}
 											>
-												{player.hasAnswered ? '✓ Answered' : '...'}
+												{player.hasAnswered
+													? config.answerSubmittedHostLabel
+													: '...'}
 											</span>
 										)}
 										<span className="font-bold">{player.score}</span>

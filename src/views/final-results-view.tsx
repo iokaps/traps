@@ -1,5 +1,4 @@
 import { config } from '@/config';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { kmClient } from '@/services/km-client';
 import { globalStore } from '@/state/stores/global-store';
 import { cn } from '@/utils/cn';
@@ -101,7 +100,7 @@ const PlayerRow: React.FC<{
 					<span className="text-lg font-semibold">{player.name}</span>
 					{isCurrentPlayer && (
 						<span className="bg-primary rounded-full px-2 py-0.5 text-xs font-medium text-white">
-							You
+							{config.youLabel}
 						</span>
 					)}
 					{index === 0 && <Crown className="h-5 w-5 text-yellow-600" />}
@@ -117,7 +116,6 @@ const PlayerRow: React.FC<{
 };
 
 const FinalResultsContent: React.FC = () => {
-	const { playSound } = useSoundEffects();
 	const { players } = useSnapshot(globalStore.proxy);
 	const confetti = useKmConfettiContext();
 	const [showWinnerReveal, setShowWinnerReveal] = React.useState(false);
@@ -143,7 +141,6 @@ const FinalResultsContent: React.FC = () => {
 		// Stage 1: Show "And the winner is..." (immediate)
 		const winnerRevealTimer = setTimeout(() => {
 			setShowWinnerReveal(true);
-			playSound('gameOver', 0.6);
 		}, 500);
 
 		// Stage 2: Show podium (after 1.5s)
@@ -247,7 +244,9 @@ const FinalResultsContent: React.FC = () => {
 					</div>
 					<div className="relative">
 						<Crown className="mx-auto mb-2 h-16 w-16 animate-bounce text-yellow-700" />
-						<p className="text-2xl font-black">{config.winnerCelebrationTitle}</p>
+						<p className="text-2xl font-black">
+							{config.winnerCelebrationTitle}
+						</p>
 						<p className="mt-1 text-sm font-medium text-yellow-800">
 							{config.winnerCelebrationSubtitle}
 						</p>
@@ -264,7 +263,7 @@ const FinalResultsContent: React.FC = () => {
 			>
 				<KmPodiumTable
 					entries={podiumEntries}
-					pointsLabel="Score"
+					pointsLabel={config.scoreLabel}
 					podiumSettings={{
 						'0': { label: '🥇', className: 'bg-yellow-400/20' },
 						'1': { label: '🥈', className: 'bg-gray-300/20' },

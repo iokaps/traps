@@ -1,5 +1,4 @@
 import { config } from '@/config';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { cn } from '@/utils/cn';
 import { Droplets } from 'lucide-react';
 import * as React from 'react';
@@ -16,13 +15,11 @@ export const MudTrapOverlay: React.FC<MudTrapOverlayProps> = ({
 	const [swipeProgress, setSwipeProgress] = React.useState(0);
 	const [startX, setStartX] = React.useState<number | null>(null);
 	const containerRef = React.useRef<HTMLDivElement>(null);
-	const { playSound } = useSoundEffects();
 
 	const mudLevel = Math.min(swipes, 3);
 	const SWIPE_THRESHOLD = 80; // pixels needed to complete one swipe
 
 	const handleComplete = () => {
-		playSound('mudClear', 0.5);
 		onSwipe();
 		setSwipeProgress(0);
 		setStartX(null);

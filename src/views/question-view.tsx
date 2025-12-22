@@ -2,7 +2,6 @@ import { IceTrapOverlay } from '@/components/traps/ice-trap-overlay';
 import { MudTrapOverlay } from '@/components/traps/mud-trap-overlay';
 import { config } from '@/config';
 import { useServerTimer } from '@/hooks/useServerTime';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { kmClient } from '@/services/km-client';
 import { globalActions } from '@/state/actions/global-actions';
 import { playerActions } from '@/state/actions/player-actions';
@@ -17,7 +16,6 @@ import { useSnapshot } from 'valtio';
 
 export const QuestionView: React.FC = () => {
 	const serverTime = useServerTimer(100);
-	const { playSound } = useSoundEffects();
 	const {
 		currentQuestion,
 		playerAnswers,
@@ -31,7 +29,6 @@ export const QuestionView: React.FC = () => {
 
 	const myAnswer = playerAnswers[kmClient.id];
 	const hasAnswered = Boolean(myAnswer);
-	const prevRemainingRef = React.useRef<number>(0);
 
 	// Get my traps
 	const myTraps = activeTraps[kmClient.id] || [];
@@ -39,19 +36,6 @@ export const QuestionView: React.FC = () => {
 	const hasMudTrap = myTraps.some((t) => t.trapType === 'mud');
 	const hasMixedTrap = myTraps.some((t) => t.trapType === 'mixed');
 	const hasMissingTrap = myTraps.some((t) => t.trapType === 'missing');
-
-	// Play warning sound in last 5 seconds
-	React.useEffect(() => {
-		if (!currentQuestion) return;
-		const remaining = Math.max(0, currentQuestion.endTimestamp - serverTime);
-		const prevRemaining = prevRemainingRef.current;
-
-		if (remaining <= 5000 && remaining > 0 && prevRemaining > 5000) {
-			playSound('timerWarning', 0.3);
-		}
-
-		prevRemainingRef.current = remaining;
-	}, [serverTime, currentQuestion, playSound]);
 
 	if (!currentQuestion) {
 		return <div className="text-center">{config.loading}</div>;

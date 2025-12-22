@@ -1,6 +1,5 @@
 import { config } from '@/config';
 import { useServerTimer } from '@/hooks/useServerTime';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { kmClient } from '@/services/km-client';
 import { globalActions } from '@/state/actions/global-actions';
 import { globalStore, type TrapType } from '@/state/stores/global-store';
@@ -53,7 +52,6 @@ const trapOptions: TrapOption[] = [
 
 export const TrapSelectionView: React.FC = () => {
 	const serverTime = useServerTimer(250);
-	const { playSound } = useSoundEffects();
 	const { players, trapSelections, trapSelectionStartTimestamp } = useSnapshot(
 		globalStore.proxy
 	);
@@ -86,7 +84,6 @@ export const TrapSelectionView: React.FC = () => {
 
 	const handleSubmit = async () => {
 		if (!selectedTrap || !selectedTarget || hasSubmitted) return;
-		playSound('trapThrow', 0.5);
 		await globalActions.assignTrap(selectedTrap, selectedTarget);
 	};
 

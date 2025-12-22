@@ -193,19 +193,6 @@ Examples (15s question time):
 - Skip offline players in "all answered" detection
 - Show offline status in player lists
 
-## Sound Effects (Free Assets)
-
-| Event                   | Sound                |
-| ----------------------- | -------------------- |
-| Ice tap/crack           | Cracking ice sound   |
-| Mud swipe               | Wet splat/wipe sound |
-| Trap thrown             | Whoosh sound         |
-| Correct answer          | Positive chime       |
-| Wrong answer            | Negative buzz        |
-| Timer warning (5s left) | Ticking/beep         |
-| Round complete          | Short fanfare        |
-| Game over               | Celebration sound    |
-
 ## Views
 
 ### Player Views
@@ -263,27 +250,3 @@ Requirements:
 - Answers should be similar length
 - No trick questions
 ```
-
-## Sound Effects
-
-Sound files should be placed in `public/sounds/`. The game uses the `useSoundEffects` hook for one-shot audio playback.
-
-### Sound Files Required
-
-| Sound         | File                | When Played                                 |
-| ------------- | ------------------- | ------------------------------------------- |
-| Ice Break     | `ice-break.mp3`     | When tapping ice trap overlay               |
-| Mud Clear     | `mud-clear.mp3`     | When swiping mud trap away                  |
-| Trap Throw    | `trap-throw.mp3`    | When selecting and throwing a trap          |
-| Correct       | `correct.mp3`       | When showing round results (correct answer) |
-| Incorrect     | `incorrect.mp3`     | When showing round results (wrong answer)   |
-| Timer Warning | `timer-warning.mp3` | When question timer reaches 5 seconds       |
-| Button Click  | `button-click.mp3`  | When selecting an answer                    |
-| Vote          | `vote.mp3`          | When voting for a category                  |
-| Game Over     | `game-over.mp3`     | When showing final results                  |
-
-### Free Sound Resources
-
-- [Freesound.org](https://freesound.org)
-- [Pixabay Sound Effects](https://pixabay.com/sound-effects/)
-- [Zapsplat](https://www.zapsplat.com)

@@ -1,6 +1,5 @@
 import { config } from '@/config';
 import { useServerTimer } from '@/hooks/useServerTime';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { kmClient } from '@/services/km-client';
 import { globalActions } from '@/state/actions/global-actions';
 import { globalStore } from '@/state/stores/global-store';
@@ -14,7 +13,6 @@ const CATEGORY_VOTE_TIME = 15000; // 15 seconds
 
 export const CategoryVoteView: React.FC = () => {
 	const serverTime = useServerTimer(250);
-	const { playSound } = useSoundEffects();
 	const { categoryOptions, categoryVotes, categoryVoteStartTimestamp } =
 		useSnapshot(globalStore.proxy);
 
@@ -39,7 +37,6 @@ export const CategoryVoteView: React.FC = () => {
 
 	const handleVote = async (category: string) => {
 		if (hasVoted) return;
-		playSound('vote', 0.4);
 		await globalActions.submitCategoryVote(category);
 	};
 

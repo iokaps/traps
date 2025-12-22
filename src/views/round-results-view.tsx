@@ -1,5 +1,4 @@
 import { config } from '@/config';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { kmClient } from '@/services/km-client';
 import { globalStore } from '@/state/stores/global-store';
 import { cn } from '@/utils/cn';
@@ -8,24 +7,10 @@ import * as React from 'react';
 import { useSnapshot } from 'valtio';
 
 export const RoundResultsView: React.FC = () => {
-	const { playSound } = useSoundEffects();
 	const { currentQuestion, playerAnswers, players, currentRound, gameConfig } =
 		useSnapshot(globalStore.proxy);
 
 	const myAnswer = playerAnswers[kmClient.id];
-	const hasPlayedSound = React.useRef(false);
-
-	// Play sound on mount based on result
-	React.useEffect(() => {
-		if (hasPlayedSound.current) return;
-		hasPlayedSound.current = true;
-
-		if (myAnswer?.isCorrect) {
-			playSound('correct', 0.5);
-		} else if (myAnswer) {
-			playSound('incorrect', 0.4);
-		}
-	}, [myAnswer, playSound]);
 
 	// Sort players by score for leaderboard
 	const leaderboard = React.useMemo(() => {

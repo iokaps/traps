@@ -96,14 +96,8 @@ export const schema = z.object({
 	playerNameLabel: z.string().default('Name:'),
 	playerNameButton: z.string().default('Join Game'),
 
-	// Menu
-	menuTitle: z.string().default('Menu'),
-	menuAriaLabel: z.string().default('Open menu drawer'),
-
 	// Misc
 	loading: z.string().default('Loading...'),
-	onlineLabel: z.string().default('Online'),
-	offlineLabel: z.string().default('Offline'),
 	retryButton: z.string().default('Retry'),
 	questionGenerationFailedLabel: z
 		.string()
@@ -113,6 +107,17 @@ export const schema = z.object({
 	presenterTrapActivityTitle: z.string().default('Trap Activity'),
 	presenterAnswerProgressTitle: z.string().default('Answer Progress'),
 	answeredLabel: z.string().default('answered'),
+
+	// Additional labels
+	youLabel: z.string().default('You'),
+	scoreLabel: z.string().default('Score'),
+	needMorePlayersMessage: z
+		.string()
+		.default('Need at least 2 players to start'),
+	trapSubmittedLabel: z.string().default('✓ Trap'),
+	answerSubmittedHostLabel: z.string().default('✓ Answered'),
+	categoryLabel: z.string().default('Category'),
+	pointsLabel: z.string().default('points'),
 
 	// AI prompts (for customization)
 	questionGenerationPrompt: z

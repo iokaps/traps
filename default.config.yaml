@@ -87,14 +87,8 @@ playerNamePlaceholder: 'Your name...'
 playerNameLabel: 'Name:'
 playerNameButton: 'Join Game'
 
-# Menu
-menuTitle: 'Menu'
-menuAriaLabel: 'Open menu drawer'
-
 # Misc
 loading: 'Loading...'
-onlineLabel: 'Online'
-offlineLabel: 'Offline'
 retryButton: 'Retry'
 questionGenerationFailedLabel: 'Question generation failed. Please try again.'
 
@@ -102,6 +96,15 @@ questionGenerationFailedLabel: 'Question generation failed. Please try again.'
 presenterTrapActivityTitle: 'Trap Activity'
 presenterAnswerProgressTitle: 'Answer Progress'
 answeredLabel: 'answered'
+
+# Additional labels
+youLabel: 'You'
+scoreLabel: 'Score'
+needMorePlayersMessage: 'Need at least 2 players to start'
+trapSubmittedLabel: '✓ Trap'
+answerSubmittedHostLabel: '✓ Answered'
+categoryLabel: 'Category'
+pointsLabel: 'points'
 
 # AI prompts
 questionGenerationPrompt: |

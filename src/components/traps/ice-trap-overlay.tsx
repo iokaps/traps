@@ -1,5 +1,4 @@
 import { config } from '@/config';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
 import { cn } from '@/utils/cn';
 import { Snowflake } from 'lucide-react';
 import * as React from 'react';
@@ -14,11 +13,9 @@ export const IceTrapOverlay: React.FC<IceTrapOverlayProps> = ({
 	onTap
 }) => {
 	const crackLevel = Math.min(taps, 3);
-	const { playSound } = useSoundEffects();
 
 	const handleTap = (e: React.MouseEvent) => {
 		e.stopPropagation();
-		playSound('iceBreak', 0.4);
 		onTap();
 	};
 

@@ -284,7 +284,7 @@ const PresenterContent: React.FC = () => {
 											{config.trapSelectionTitle}
 										</h2>
 										<p className="text-gray-600">
-											Category:{' '}
+											{config.categoryLabel}:{' '}
 											<span className="font-bold">{selectedCategory}</span>
 										</p>
 									</div>
@@ -502,7 +502,7 @@ const PresenterContent: React.FC = () => {
 										🎉 {sortedPlayers[0].name} 🎉
 									</p>
 									<p className="text-2xl font-bold">
-										{sortedPlayers[0].score} points
+										{sortedPlayers[0].score} {config.pointsLabel}
 									</p>
 								</div>
 							)}
