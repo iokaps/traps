@@ -95,7 +95,6 @@ export const QuestionView: React.FC = () => {
 
 	const handleAnswerClick = async (index: number) => {
 		if (!isAnswerSelectable(index)) return;
-		playSound('buttonClick', 0.3);
 		await globalActions.submitAnswer(index);
 	};
 
