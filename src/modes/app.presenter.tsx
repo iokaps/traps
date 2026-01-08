@@ -193,259 +193,339 @@ const PresenterContent: React.FC = () => {
 				</div>
 			</HostPresenterLayout.Header>
 
-			<HostPresenterLayout.Main>
-				{/* Lobby View */}
-				{phase === 'lobby' && (
-					<>
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<div className="flex flex-col items-center gap-4">
-								<h2 className="text-2xl font-bold">{config.lobbyTitle}</h2>
-								<p className="text-gray-600">{config.lobbySubtitle}</p>
-								<KmQrCode data={playerLink} size={300} interactive={false} />
-							</div>
-						</div>
-
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<h2 className="mb-4 text-xl font-bold">
-								{config.playersLabel} (
-								{sortedPlayers.filter((p) => p.isOnline).length})
-							</h2>
-							<div className="flex flex-wrap gap-2">
-								{sortedPlayers.map((player) => (
-									<div
-										key={player.clientId}
-										className={`rounded-full px-4 py-2 font-medium ${
-											player.isOnline
-												? 'bg-green-100 text-green-700'
-												: 'bg-gray-100 text-gray-400'
-										}`}
-									>
-										{player.name}
-									</div>
-								))}
-							</div>
-						</div>
-					</>
-				)}
-
-				{/* Category Vote View */}
-				{phase === 'category-vote' && (
-					<div className="grid grid-cols-[1fr_280px] gap-6">
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<div className="mb-4 flex items-center justify-between">
-								<h2 className="text-2xl font-bold">
-									{config.categoryVoteTitle}
-								</h2>
-								<KmTimeCountdown
-									ms={getCategoryVoteRemaining()}
-									display="s"
-									className="text-3xl font-bold"
-								/>
-							</div>
-
-							<div className="grid grid-cols-2 gap-4">
-								{categoryOptions.map((category) => {
-									const votes = voteCounts[category] || 0;
-									const maxVotes = Math.max(...Object.values(voteCounts), 1);
-									const percentage = (votes / maxVotes) * 100;
-
-									return (
-										<div
-											key={category}
-											className="relative overflow-hidden rounded-xl border-2 border-gray-200 p-4"
-										>
-											<div
-												className="absolute inset-0 bg-blue-100 transition-all"
-												style={{ width: `${percentage}%` }}
-											/>
-											<div className="relative flex items-center justify-between">
-												<span className="text-lg font-medium">{category}</span>
-												<span className="rounded-full bg-blue-500 px-3 py-1 text-sm font-bold text-white">
-													{votes}
-												</span>
-											</div>
-										</div>
-									);
-								})}
-							</div>
-						</div>
-						<CompactLeaderboard players={sortedPlayers} />
-					</div>
-				)}
-
-				{/* Trap Selection View */}
-				{phase === 'trap-selection' && (
-					<div className="grid grid-cols-[1fr_280px] gap-6">
-						<div className="flex flex-col gap-6">
+			<div className="grid grid-cols-[1fr_320px] gap-6">
+				<HostPresenterLayout.Main>
+					{/* Lobby View */}
+					{phase === 'lobby' && (
+						<>
 							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-								<div className="mb-4 flex items-center justify-between">
-									<div>
-										<h2 className="text-2xl font-bold">
-											{config.trapSelectionTitle}
-										</h2>
-										<p className="text-gray-600">
-											{config.categoryLabel}:{' '}
-											<span className="font-bold">{selectedCategory}</span>
-										</p>
-									</div>
-									<KmTimeCountdown
-										ms={getTrapSelectionRemaining()}
-										display="s"
-										className="text-3xl font-bold"
-									/>
+								<div className="flex flex-col items-center gap-4">
+									<h2 className="text-2xl font-bold">{config.lobbyTitle}</h2>
+									<p className="text-gray-600">{config.lobbySubtitle}</p>
 								</div>
 							</div>
 
 							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
 								<h2 className="mb-4 text-xl font-bold">
-									{config.presenterTrapActivityTitle}
+									{config.playersLabel} (
+									{sortedPlayers.filter((p) => p.isOnline).length})
 								</h2>
-								<div className="flex flex-col gap-2">
-									{Object.entries(trapSelections).map(([fromId, selection]) => {
-										const fromPlayer = players[fromId];
-										const toPlayer = players[selection.targetId];
-										if (!fromPlayer || !toPlayer) return null;
+								<div className="flex flex-wrap gap-2">
+									{sortedPlayers.map((player) => (
+										<div
+											key={player.clientId}
+											className={`rounded-full px-4 py-2 font-medium ${
+												player.isOnline
+													? 'bg-green-100 text-green-700'
+													: 'bg-gray-100 text-gray-400'
+											}`}
+										>
+											{player.name}
+										</div>
+									))}
+								</div>
+							</div>
+						</>
+					)}
+
+					{/* Category Vote View */}
+					{phase === 'category-vote' && (
+						<div className="grid grid-cols-[1fr_280px] gap-6">
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<div className="mb-4 flex items-center justify-between">
+									<h2 className="text-2xl font-bold">
+										{config.categoryVoteTitle}
+									</h2>
+									<KmTimeCountdown
+										ms={getCategoryVoteRemaining()}
+										display="s"
+										className="text-3xl font-bold"
+									/>
+								</div>
+
+								<div className="grid grid-cols-2 gap-4">
+									{categoryOptions.map((category) => {
+										const votes = voteCounts[category] || 0;
+										const maxVotes = Math.max(...Object.values(voteCounts), 1);
+										const percentage = (votes / maxVotes) * 100;
 
 										return (
 											<div
-												key={fromId}
-												className="flex items-center gap-2 rounded-lg bg-gray-50 p-3"
+												key={category}
+												className="relative overflow-hidden rounded-xl border-2 border-gray-200 p-4"
 											>
-												<span className="font-medium">{fromPlayer.name}</span>
-												<span className="text-gray-400">→</span>
-												<TrapIcon type={selection.trapType} />
-												<span className="text-gray-400">→</span>
-												<span className="font-medium">{toPlayer.name}</span>
+												<div
+													className="absolute inset-0 bg-blue-100 transition-all"
+													style={{ width: `${percentage}%` }}
+												/>
+												<div className="relative flex items-center justify-between">
+													<span className="text-lg font-medium">
+														{category}
+													</span>
+													<span className="rounded-full bg-blue-500 px-3 py-1 text-sm font-bold text-white">
+														{votes}
+													</span>
+												</div>
 											</div>
 										);
 									})}
 								</div>
 							</div>
+							<CompactLeaderboard players={sortedPlayers} />
 						</div>
-						<CompactLeaderboard players={sortedPlayers} />
-					</div>
-				)}
+					)}
 
-				{/* Question View */}
-				{phase === 'question' && currentQuestion && (
-					<div className="grid grid-cols-[1fr_280px] gap-6">
-						<div className="flex flex-col gap-6">
-							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-								<div className="mb-4 flex items-center justify-between">
-									<span className="text-gray-500">{config.questionTitle}</span>
-									<KmTimeCountdown
-										ms={getQuestionRemaining()}
-										display="s"
-										className={`text-3xl font-bold ${
-											getQuestionRemaining() <= 5000
-												? 'animate-pulse text-red-500'
-												: ''
-										}`}
-									/>
-								</div>
-								<h2 className="mb-6 text-3xl font-bold">
-									{currentQuestion.question}
-								</h2>
-
-								<div className="grid grid-cols-2 gap-4">
-									{currentQuestion.answers.map((answer, index) => (
-										<div
-											key={index}
-											className="rounded-xl border-2 border-gray-200 bg-gray-50 p-4 text-lg"
-										>
-											{answer}
+					{/* Trap Selection View */}
+					{phase === 'trap-selection' && (
+						<div className="grid grid-cols-[1fr_280px] gap-6">
+							<div className="flex flex-col gap-6">
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+									<div className="mb-4 flex items-center justify-between">
+										<div>
+											<h2 className="text-2xl font-bold">
+												{config.trapSelectionTitle}
+											</h2>
+											<p className="text-gray-600">
+												{config.categoryLabel}:{' '}
+												<span className="font-bold">{selectedCategory}</span>
+											</p>
 										</div>
-									))}
+										<KmTimeCountdown
+											ms={getTrapSelectionRemaining()}
+											display="s"
+											className="text-3xl font-bold"
+										/>
+									</div>
+								</div>
+
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+									<h2 className="mb-4 text-xl font-bold">
+										{config.presenterTrapActivityTitle}
+									</h2>
+									<div className="flex flex-col gap-2">
+										{Object.entries(trapSelections).map(
+											([fromId, selection]) => {
+												const fromPlayer = players[fromId];
+												const toPlayer = players[selection.targetId];
+												if (!fromPlayer || !toPlayer) return null;
+
+												return (
+													<div
+														key={fromId}
+														className="flex items-center gap-2 rounded-lg bg-gray-50 p-3"
+													>
+														<span className="font-medium">
+															{fromPlayer.name}
+														</span>
+														<span className="text-gray-400">→</span>
+														<TrapIcon type={selection.trapType} />
+														<span className="text-gray-400">→</span>
+														<span className="font-medium">{toPlayer.name}</span>
+													</div>
+												);
+											}
+										)}
+									</div>
+								</div>
+							</div>
+							<CompactLeaderboard players={sortedPlayers} />
+						</div>
+					)}
+
+					{/* Question View */}
+					{phase === 'question' && currentQuestion && (
+						<div className="grid grid-cols-[1fr_280px] gap-6">
+							<div className="flex flex-col gap-6">
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+									<div className="mb-4 flex items-center justify-between">
+										<span className="text-gray-500">
+											{config.questionTitle}
+										</span>
+										<KmTimeCountdown
+											ms={getQuestionRemaining()}
+											display="s"
+											className={`text-3xl font-bold ${
+												getQuestionRemaining() <= 5000
+													? 'animate-pulse text-red-500'
+													: ''
+											}`}
+										/>
+									</div>
+									<h2 className="mb-6 text-3xl font-bold">
+										{currentQuestion.question}
+									</h2>
+
+									<div className="grid grid-cols-2 gap-4">
+										{currentQuestion.answers.map((answer, index) => (
+											<div
+												key={index}
+												className="rounded-xl border-2 border-gray-200 bg-gray-50 p-4 text-lg"
+											>
+												{answer}
+											</div>
+										))}
+									</div>
+								</div>
+
+								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+									<h2 className="mb-4 text-xl font-bold">
+										{config.presenterAnswerProgressTitle}
+									</h2>
+									<div className="flex items-center gap-4">
+										<div className="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
+											<div
+												className="h-full bg-green-500 transition-all"
+												style={{
+													width: `${
+														(Object.keys(playerAnswers).length /
+															sortedPlayers.filter((p) => p.isOnline).length) *
+														100
+													}%`
+												}}
+											/>
+										</div>
+										<span className="font-bold">
+											{Object.keys(playerAnswers).length}/
+											{sortedPlayers.filter((p) => p.isOnline).length}{' '}
+											{config.answeredLabel}
+										</span>
+									</div>
+								</div>
+
+								{/* Trap Activity */}
+								{Object.keys(activeTraps).length > 0 && (
+									<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+										<h2 className="mb-4 text-xl font-bold">
+											{config.presenterTrapActivityTitle}
+										</h2>
+										<div className="flex flex-wrap gap-2">
+											{Object.entries(activeTraps).map(([targetId, traps]) => {
+												const targetPlayer = players[targetId];
+												if (!targetPlayer) return null;
+
+												return (
+													<div
+														key={targetId}
+														className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2"
+													>
+														<span className="font-medium">
+															{targetPlayer.name}
+														</span>
+														<div className="flex gap-1">
+															{traps.map((trap, i) => (
+																<TrapIcon key={i} type={trap.trapType} />
+															))}
+														</div>
+													</div>
+												);
+											})}
+										</div>
+									</div>
+								)}
+							</div>
+							<CompactLeaderboard players={sortedPlayers} />
+						</div>
+					)}
+
+					{/* Round Results View */}
+					{phase === 'round-results' && currentQuestion && (
+						<>
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<h2 className="mb-4 text-2xl font-bold">
+									{config.roundResultsTitle}
+								</h2>
+								<div className="mb-4 rounded-xl bg-green-50 p-4">
+									<p className="text-sm text-gray-500">
+										{config.correctAnswerLabel}:
+									</p>
+									<p className="text-2xl font-bold text-green-600">
+										{currentQuestion.answers[currentQuestion.correctIndex]}
+									</p>
 								</div>
 							</div>
 
 							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
 								<h2 className="mb-4 text-xl font-bold">
-									{config.presenterAnswerProgressTitle}
+									{config.leaderboardTitle}
 								</h2>
-								<div className="flex items-center gap-4">
-									<div className="h-4 flex-1 overflow-hidden rounded-full bg-gray-200">
-										<div
-											className="h-full bg-green-500 transition-all"
-											style={{
-												width: `${
-													(Object.keys(playerAnswers).length /
-														sortedPlayers.filter((p) => p.isOnline).length) *
-													100
-												}%`
-											}}
-										/>
-									</div>
-									<span className="font-bold">
-										{Object.keys(playerAnswers).length}/
-										{sortedPlayers.filter((p) => p.isOnline).length}{' '}
-										{config.answeredLabel}
-									</span>
-								</div>
-							</div>
+								<div className="flex flex-col gap-2">
+									{sortedPlayers.map((player, index) => {
+										const roundPoints =
+											playerAnswers[player.clientId]?.pointsEarned || 0;
 
-							{/* Trap Activity */}
-							{Object.keys(activeTraps).length > 0 && (
-								<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-									<h2 className="mb-4 text-xl font-bold">
-										{config.presenterTrapActivityTitle}
-									</h2>
-									<div className="flex flex-wrap gap-2">
-										{Object.entries(activeTraps).map(([targetId, traps]) => {
-											const targetPlayer = players[targetId];
-											if (!targetPlayer) return null;
-
-											return (
-												<div
-													key={targetId}
-													className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2"
-												>
-													<span className="font-medium">
-														{targetPlayer.name}
+										return (
+											<div
+												key={player.clientId}
+												className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
+											>
+												<div className="flex items-center gap-3">
+													<span
+														className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+															index === 0
+																? 'bg-yellow-400 text-yellow-900'
+																: index === 1
+																	? 'bg-gray-300 text-gray-700'
+																	: index === 2
+																		? 'bg-amber-600 text-amber-100'
+																		: 'bg-gray-100 text-gray-600'
+														}`}
+													>
+														{index + 1}
 													</span>
-													<div className="flex gap-1">
-														{traps.map((trap, i) => (
-															<TrapIcon key={i} type={trap.trapType} />
-														))}
-													</div>
+													<span className="text-lg font-medium text-gray-800">
+														{player.name}
+													</span>
 												</div>
-											);
-										})}
-									</div>
+												<div className="flex items-center gap-3">
+													{roundPoints > 0 && (
+														<span className="text-green-600">
+															+{roundPoints}
+														</span>
+													)}
+													<span className="text-xl font-bold text-gray-800">
+														{player.score}
+													</span>
+												</div>
+											</div>
+										);
+									})}
 								</div>
-							)}
-						</div>
-						<CompactLeaderboard players={sortedPlayers} />
-					</div>
-				)}
-
-				{/* Round Results View */}
-				{phase === 'round-results' && currentQuestion && (
-					<>
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<h2 className="mb-4 text-2xl font-bold">
-								{config.roundResultsTitle}
-							</h2>
-							<div className="mb-4 rounded-xl bg-green-50 p-4">
-								<p className="text-sm text-gray-500">
-									{config.correctAnswerLabel}:
-								</p>
-								<p className="text-2xl font-bold text-green-600">
-									{currentQuestion.answers[currentQuestion.correctIndex]}
-								</p>
 							</div>
-						</div>
+						</>
+					)}
 
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<h2 className="mb-4 text-xl font-bold">
-								{config.leaderboardTitle}
-							</h2>
-							<div className="flex flex-col gap-2">
-								{sortedPlayers.map((player, index) => {
-									const roundPoints =
-										playerAnswers[player.clientId]?.pointsEarned || 0;
+					{/* Final Results View */}
+					{phase === 'final-results' && (
+						<>
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<div className="mb-6 flex items-center justify-center gap-2">
+									<Trophy className="h-10 w-10 text-yellow-500" />
+									<h2 className="text-3xl font-bold">
+										{config.finalResultsTitle}
+									</h2>
+								</div>
 
-									return (
+								{sortedPlayers[0] && (
+									<div className="mb-6 text-center">
+										<p className="text-gray-500">{config.winnerLabel}</p>
+										<p className="text-4xl font-bold text-yellow-600">
+											🎉 {sortedPlayers[0].name} 🎉
+										</p>
+										<p className="text-2xl font-bold">
+											{sortedPlayers[0].score} {config.pointsLabel}
+										</p>
+									</div>
+								)}
+
+								<KmPodiumTable entries={podiumEntries} />
+							</div>
+
+							<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
+								<h2 className="mb-4 text-xl font-bold">
+									{config.finalScoresLabel}
+								</h2>
+								<div className="flex flex-col gap-2">
+									{sortedPlayers.map((player, index) => (
 										<div
 											key={player.clientId}
 											className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
@@ -468,86 +548,52 @@ const PresenterContent: React.FC = () => {
 													{player.name}
 												</span>
 											</div>
-											<div className="flex items-center gap-3">
-												{roundPoints > 0 && (
-													<span className="text-green-600">+{roundPoints}</span>
-												)}
-												<span className="text-xl font-bold text-gray-800">
-													{player.score}
-												</span>
-											</div>
+											<span className="text-xl font-bold text-gray-800">
+												{player.score}
+											</span>
 										</div>
-									);
-								})}
-							</div>
-						</div>
-					</>
-				)}
-
-				{/* Final Results View */}
-				{phase === 'final-results' && (
-					<>
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<div className="mb-6 flex items-center justify-center gap-2">
-								<Trophy className="h-10 w-10 text-yellow-500" />
-								<h2 className="text-3xl font-bold">
-									{config.finalResultsTitle}
-								</h2>
-							</div>
-
-							{sortedPlayers[0] && (
-								<div className="mb-6 text-center">
-									<p className="text-gray-500">{config.winnerLabel}</p>
-									<p className="text-4xl font-bold text-yellow-600">
-										🎉 {sortedPlayers[0].name} 🎉
-									</p>
-									<p className="text-2xl font-bold">
-										{sortedPlayers[0].score} {config.pointsLabel}
-									</p>
+									))}
 								</div>
-							)}
-
-							<KmPodiumTable entries={podiumEntries} />
-						</div>
-
-						<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-							<h2 className="mb-4 text-xl font-bold">
-								{config.finalScoresLabel}
-							</h2>
-							<div className="flex flex-col gap-2">
-								{sortedPlayers.map((player, index) => (
-									<div
-										key={player.clientId}
-										className="flex items-center justify-between rounded-lg bg-gray-50 p-3"
-									>
-										<div className="flex items-center gap-3">
-											<span
-												className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-													index === 0
-														? 'bg-yellow-400 text-yellow-900'
-														: index === 1
-															? 'bg-gray-300 text-gray-700'
-															: index === 2
-																? 'bg-amber-600 text-amber-100'
-																: 'bg-gray-100 text-gray-600'
-												}`}
-											>
-												{index + 1}
-											</span>
-											<span className="text-lg font-medium text-gray-800">
-												{player.name}
-											</span>
-										</div>
-										<span className="text-xl font-bold text-gray-800">
-											{player.score}
-										</span>
-									</div>
-								))}
 							</div>
+						</>
+					)}
+				</HostPresenterLayout.Main>
+
+				{/* Persistent QR Code Sidebar */}
+				<div className="flex flex-col gap-4">
+					<div className="h-fit rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+						<h3 className="mb-3 text-center text-sm font-bold text-gray-700">
+							{config.playerLinkLabel}
+						</h3>
+						<div className="flex justify-center">
+							<KmQrCode data={playerLink} size={200} interactive={false} />
 						</div>
-					</>
-				)}
-			</HostPresenterLayout.Main>
+						<a
+							href={playerLink}
+							target="_blank"
+							rel="noreferrer"
+							className="mt-3 block text-center text-xs break-all text-blue-600 underline hover:text-blue-700"
+						>
+							{playerLink}
+						</a>
+					</div>
+
+					{/* Players Count Indicator */}
+					<div className="h-fit rounded-lg border border-gray-200 bg-white p-4 shadow-md">
+						<h3 className="mb-2 text-lg font-bold text-gray-700">
+							{config.playersLabel}
+						</h3>
+						<div className="text-3xl font-bold text-blue-600">
+							{sortedPlayers.filter((p) => p.isOnline).length}
+						</div>
+						<p className="text-sm text-gray-500">
+							{sortedPlayers.filter((p) => p.isOnline).length === 1
+								? 'player online'
+								: 'players online'}
+						</p>
+					</div>
+				</div>
+			</div>
 		</HostPresenterLayout.Root>
 	);
 };

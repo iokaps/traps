@@ -336,15 +336,25 @@ export const globalActions = {
 		const currentRound = state.currentRound;
 		const totalRounds = state.gameConfig.totalRounds;
 
+		// Defensive check: ensure totalRounds is at least 1
+		if (totalRounds < 1) {
+			await kmClient.transact([globalStore], ([globalState]) => {
+				globalState.phase = 'final-results';
+			});
+			return;
+		}
+
+		// If current round is already equal to or past total rounds, show final results
 		if (currentRound >= totalRounds) {
-			// Game over
 			await kmClient.transact([globalStore], ([globalState]) => {
 				globalState.phase = 'final-results';
 			});
 		} else {
-			// Next round - go to starting phase (shows "Get Ready!" + generates categories)
+			// Start next round (safe because currentRound < totalRounds)
+			const nextRound = currentRound + 1;
+
 			await kmClient.transact([globalStore], ([globalState]) => {
-				globalState.currentRound = currentRound + 1;
+				globalState.currentRound = nextRound;
 				globalState.phase = 'starting';
 				globalState.gameStartTimestamp = kmClient.serverTimestamp();
 				globalState.categoryOptions = [];
