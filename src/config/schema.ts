@@ -124,6 +124,19 @@ export const schema = z.object({
 		.string()
 		.default(
 			'Generate 1 medium-difficulty trivia question about the topic. Return as JSON with: question (string), answers (array of 4 strings), correctIndex (number 0-3). All wrong answers should be plausible. No trick questions.'
+		),
+
+	// Presenter QR toggle
+	showQrCodeButton: z.string().default('Show QR'),
+	hideQrCodeButton: z.string().default('Hide QR'),
+	presenterOnlineLabel: z.string().default('online'),
+
+	// How to Play
+	howToPlayButton: z.string().default('How to Play'),
+	howToPlayContentMd: z
+		.string()
+		.default(
+			'## How to Play\n\n1. Share the **Player Link** or QR code with players.\n2. Configure game settings and press **Start Game**.\n3. Each round: players vote on a category, set traps, then answer a trivia question.\n4. Points are awarded for correct answers with speed bonuses.\n5. The player with the most points at the end wins!'
 		)
 });
 

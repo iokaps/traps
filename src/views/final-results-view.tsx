@@ -257,7 +257,7 @@ const FinalResultsContent: React.FC = () => {
 			{/* Podium with enhanced styling */}
 			<div
 				className={cn(
-					'bg-surface rounded-2xl p-4 shadow-lg transition-all duration-700',
+					'card-glass rounded-3xl p-4 shadow-lg transition-all duration-700',
 					showPodium ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
 				)}
 			>
@@ -275,7 +275,7 @@ const FinalResultsContent: React.FC = () => {
 			{/* Full Scores with staggered reveal */}
 			<div
 				className={cn(
-					'bg-surface rounded-2xl p-4 shadow-lg transition-all duration-500',
+					'card-glass rounded-3xl p-4 shadow-lg transition-all duration-500',
 					showScores ? 'opacity-100' : 'opacity-0'
 				)}
 			>

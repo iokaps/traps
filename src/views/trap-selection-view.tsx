@@ -119,16 +119,16 @@ export const TrapSelectionView: React.FC = () => {
 						<h3 className="text-text-heading mb-2 font-semibold">
 							{config.selectTrapLabel}
 						</h3>
-						<div className="grid grid-cols-2 gap-2">
+						<div className="grid grid-cols-2 gap-3">
 							{trapOptions.map((trap) => (
 								<button
 									key={trap.type}
 									onClick={() => setSelectedTrap(trap.type)}
 									className={cn(
-										'flex flex-col items-center gap-1 rounded-xl border-2 p-3 transition-all',
+										'flex flex-col items-center gap-1 rounded-2xl border-2 p-3 transition-all',
 										selectedTrap === trap.type
-											? trap.color
-											: 'bg-surface hover:border-primary-light border-gray-200'
+											? `${trap.color} shadow-md`
+											: 'hover:border-primary-light border-white/50 bg-white/50'
 									)}
 								>
 									{trap.icon}
@@ -153,10 +153,10 @@ export const TrapSelectionView: React.FC = () => {
 									onClick={() => setSelectedTarget(player.clientId)}
 									disabled={!selectedTrap}
 									className={cn(
-										'flex items-center justify-between rounded-xl border-2 p-3 transition-all',
+										'flex items-center justify-between rounded-2xl border-2 p-3 transition-all',
 										selectedTarget === player.clientId
-											? 'border-secondary bg-secondary/10'
-											: 'bg-surface hover:border-secondary/50 border-gray-200',
+											? 'border-secondary bg-secondary/10 shadow-secondary/10 shadow-md'
+											: 'hover:border-secondary/50 border-white/50 bg-white/50',
 										!selectedTrap && 'cursor-not-allowed opacity-50'
 									)}
 								>
@@ -170,7 +170,7 @@ export const TrapSelectionView: React.FC = () => {
 					</div>
 				</>
 			) : (
-				<div className="bg-success/10 rounded-xl p-6 text-center">
+				<div className="bg-success/10 rounded-2xl p-6 text-center">
 					<Check className="text-success mx-auto mb-2 h-12 w-12" />
 					<p className="text-success-dark text-lg font-bold">
 						{config.trapSelectedLabel}

@@ -131,7 +131,7 @@ export const QuestionView: React.FC = () => {
 			</div>
 
 			{/* Question */}
-			<div className="bg-surface border-primary/20 rounded-xl border-2 p-4 shadow-md">
+			<div className="card-glass rounded-2xl p-5 shadow-lg">
 				<h2 className="text-text-heading text-xl font-bold">
 					{currentQuestion.question}
 				</h2>
@@ -153,10 +153,10 @@ export const QuestionView: React.FC = () => {
 								onClick={() => handleAnswerClick(index)}
 								disabled={!selectable || hasAnswered}
 								className={cn(
-									'relative min-h-[60px] w-full rounded-xl border-2 p-4 text-left font-semibold transition-all',
+									'relative min-h-[60px] w-full rounded-2xl border-2 p-4 text-left font-semibold transition-all',
 									selectable || isSelected
 										? getAnswerColors(index, isSelected)
-										: 'cursor-not-allowed border-gray-300 bg-gray-100 opacity-70'
+										: 'cursor-not-allowed border-gray-200/50 bg-gray-100/50 opacity-70'
 								)}
 							>
 								<span>{displayAnswer}</span>
@@ -186,7 +186,7 @@ export const QuestionView: React.FC = () => {
 
 			{/* Status */}
 			{hasAnswered && (
-				<div className="bg-success/10 rounded-xl p-4 text-center">
+				<div className="bg-success/10 rounded-2xl p-4 text-center">
 					<Check className="text-success mx-auto mb-2 h-8 w-8" />
 					<p className="text-success-dark font-bold">
 						{config.answerSubmittedLabel}

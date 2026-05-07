@@ -29,14 +29,9 @@ export const CreateProfileView: React.FC<Props> = ({ className }) => {
 	};
 
 	return (
-		<div
-			className={cn(
-				'bg-surface border-primary/20 w-full max-w-96 rounded-lg border shadow-md',
-				className
-			)}
-		>
+		<div className={cn('card-glass w-full max-w-96 rounded-2xl', className)}>
 			<div className="p-6">
-				<h2 className="text-text-heading mb-2 text-xl font-bold">
+				<h2 className="text-text-heading mb-4 text-xl font-bold">
 					{config.playerNameTitle}
 				</h2>
 				<form onSubmit={handleSubmit} className="space-y-4">
@@ -49,12 +44,12 @@ export const CreateProfileView: React.FC<Props> = ({ className }) => {
 							disabled={isLoading}
 							autoFocus
 							maxLength={50}
-							className="focus:ring-primary w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none"
+							className="border-primary/20 focus:border-primary focus:ring-primary/20 w-full rounded-xl border bg-white/80 px-4 py-3 text-lg transition-all focus:ring-2 focus:outline-none"
 						/>
 					</label>
 					<button
 						type="submit"
-						className="bg-primary hover:bg-primary-dark w-full rounded-lg px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+						className="from-primary to-primary-dark shadow-primary/25 w-full rounded-xl bg-gradient-to-r px-4 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none"
 						disabled={!name.trim() || isLoading}
 					>
 						{isLoading ? (

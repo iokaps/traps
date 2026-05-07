@@ -30,8 +30,11 @@ export const GameStartingView: React.FC = () => {
 					</p>
 				</div>
 
-				<div className="bg-primary flex h-32 w-32 items-center justify-center rounded-full shadow-lg">
-					<div className="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent" />
+				<div className="relative">
+					<div className="animate-pulse-ring bg-primary/30 absolute inset-0 rounded-full" />
+					<div className="from-primary to-secondary shadow-primary/30 flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br shadow-xl">
+						<div className="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent" />
+					</div>
 				</div>
 
 				<p className="text-text-muted text-center">
@@ -52,12 +55,15 @@ export const GameStartingView: React.FC = () => {
 				</p>
 			</div>
 
-			<div className="bg-primary flex h-32 w-32 items-center justify-center rounded-full shadow-lg">
-				<KmTimeCountdown
-					ms={remaining}
-					display="s"
-					className="text-6xl font-bold text-white"
-				/>
+			<div className="relative">
+				<div className="animate-pulse-ring bg-primary/30 absolute inset-0 rounded-full" />
+				<div className="from-primary to-secondary shadow-primary/30 flex h-32 w-32 items-center justify-center rounded-full bg-gradient-to-br shadow-xl">
+					<KmTimeCountdown
+						ms={remaining}
+						display="s"
+						className="text-6xl font-bold text-white"
+					/>
+				</div>
 			</div>
 
 			<p className="text-text-muted text-center">{config.getReadyMessage}</p>

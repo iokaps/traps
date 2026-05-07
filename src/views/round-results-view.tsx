@@ -46,7 +46,7 @@ export const RoundResultsView: React.FC = () => {
 			{/* My Result */}
 			<div
 				className={cn(
-					'rounded-xl p-6 text-center',
+					'rounded-2xl p-6 text-center',
 					myAnswer?.isCorrect ? 'bg-success/10' : 'bg-error/10'
 				)}
 			>
@@ -80,13 +80,15 @@ export const RoundResultsView: React.FC = () => {
 			</div>
 
 			{/* Correct Answer */}
-			<div className="bg-surface border-success/30 rounded-xl border p-4 shadow-md">
-				<p className="text-text-muted text-sm">{config.correctAnswerLabel}:</p>
+			<div className="card-glass rounded-2xl p-4">
+				<p className="text-text-muted text-xs font-semibold tracking-wider uppercase">
+					{config.correctAnswerLabel}
+				</p>
 				<p className="text-success-dark text-lg font-bold">{correctAnswer}</p>
 			</div>
 
 			{/* Leaderboard */}
-			<div className="bg-surface rounded-xl p-4 shadow-md">
+			<div className="card-glass rounded-2xl p-4">
 				<h3 className="text-text-heading mb-3 font-bold">
 					{config.leaderboardTitle}
 				</h3>
@@ -95,8 +97,9 @@ export const RoundResultsView: React.FC = () => {
 						<div
 							key={player.clientId}
 							className={cn(
-								'flex items-center justify-between rounded-lg p-2',
-								player.clientId === kmClient.id && 'bg-primary/10'
+								'flex items-center justify-between rounded-xl p-2',
+								player.clientId === kmClient.id &&
+									'bg-primary/10 ring-primary/20 ring-1'
 							)}
 						>
 							<div className="flex items-center gap-2">

@@ -25,16 +25,13 @@ export const GameLobbyView: React.FC<React.PropsWithChildren<Props>> = ({
 
 	return (
 		<div
-			className={cn(
-				'border-primary/20 bg-surface w-full max-w-screen-sm rounded-lg border shadow-md',
-				className
-			)}
+			className={cn('card-glass w-full max-w-screen-sm rounded-2xl', className)}
 		>
 			<div className="prose p-6">
 				<Markdown>{config.waitingForHostMd}</Markdown>
 			</div>
 
-			<div className="border-primary/20 border-t p-6">
+			<div className="border-t border-white/40 p-6">
 				<h3 className="text-text-heading mb-3 font-bold">
 					{config.playersLabel} ({onlinePlayers.length})
 				</h3>
@@ -42,7 +39,7 @@ export const GameLobbyView: React.FC<React.PropsWithChildren<Props>> = ({
 					{onlinePlayers.map((name) => (
 						<span
 							key={name}
-							className="bg-success/20 text-success-dark rounded-full px-3 py-1 text-sm font-medium"
+							className="from-success/20 to-success/10 text-success-dark rounded-full bg-gradient-to-r px-3 py-1 text-sm font-semibold"
 						>
 							{name}
 						</span>

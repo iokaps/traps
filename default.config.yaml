@@ -69,7 +69,7 @@ noAnswerLabel: 'No answer'
 # Final Results
 finalResultsTitle: 'Game Over!'
 winnerLabel: 'Winner'
-winnerCelebrationTitle: '🎉 You Won! 🎉'
+winnerCelebrationTitle: 'You Won!'
 winnerCelebrationSubtitle: 'Champion of the game!'
 finalScoresLabel: 'Final Scores'
 backToLobbyButton: 'Back to Lobby'
@@ -101,8 +101,8 @@ answeredLabel: 'answered'
 youLabel: 'You'
 scoreLabel: 'Score'
 needMorePlayersMessage: 'Need at least 2 players to start'
-trapSubmittedLabel: '✓ Trap'
-answerSubmittedHostLabel: '✓ Answered'
+trapSubmittedLabel: 'Trap'
+answerSubmittedHostLabel: 'Answered'
 categoryLabel: 'Category'
 pointsLabel: 'points'
 
@@ -111,3 +111,37 @@ questionGenerationPrompt: |
   Generate 1 medium-difficulty trivia question about the topic.
   Return as JSON with: question (string), answers (array of 4 strings), correctIndex (number 0-3).
   All wrong answers should be plausible. No trick questions.
+
+# Presenter QR toggle
+showQrCodeButton: 'Show QR'
+hideQrCodeButton: 'Hide QR'
+presenterOnlineLabel: 'online'
+
+# How to Play
+howToPlayButton: 'How to Play'
+howToPlayContentMd: |
+  ## How to Play
+
+  **Setup**
+  1. Share the **Player Link** or scan the QR code with players' phones.
+  2. Wait for everyone to join and enter their names.
+  3. Optionally open the **Presenter Link** on a big screen or projector.
+  4. Configure the number of rounds and question time, then press **Start Game**.
+
+  **Each Round**
+  1. **Vote** - Players vote on one of four trivia categories.
+  2. **Trap** - Each player picks a trap and a target to sabotage.
+  3. **Question** - A trivia question appears; answer fast for bonus points!
+  4. **Results** - See who got it right and the current leaderboard.
+
+  **Traps**
+  - **Ice** - Freezes answer buttons; tap 3x to break.
+  - **Mud** - Covers answers; swipe to reveal.
+  - **Mixed Letters** - Scrambles the text in answers.
+  - **Missing Letters** - Removes random letters from answers.
+
+  **Scoring**
+  - Correct answer: **100 pts** base + up to **900 pts** speed bonus.
+  - Fastest correct answer gets the most points!
+
+  The player with the highest score after all rounds wins!

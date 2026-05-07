@@ -79,11 +79,11 @@ export const CategoryVoteView: React.FC = () => {
 							onClick={() => handleVote(category)}
 							disabled={hasVoted}
 							className={cn(
-								'relative flex items-center justify-between rounded-xl border-2 p-4 text-left transition-all',
+								'relative flex items-center justify-between rounded-2xl border-2 p-4 text-left transition-all',
 								isSelected
-									? 'border-primary bg-primary/10'
-									: 'bg-surface hover:border-primary-light hover:bg-primary/5 border-gray-200',
-								hasVoted && !isSelected && 'opacity-60'
+									? 'border-primary bg-primary/10 shadow-primary/10 shadow-md'
+									: 'hover:border-primary-light hover:bg-primary/5 border-white/50 bg-white/50',
+								hasVoted && !isSelected && 'opacity-50'
 							)}
 						>
 							<span className="text-lg font-medium">{category}</span>
