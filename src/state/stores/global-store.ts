@@ -43,6 +43,7 @@ export interface GameConfig {
 
 export interface GlobalState {
 	controllerConnectionId: string;
+	controllerHeartbeat: number;
 
 	// Game configuration
 	gameConfig: GameConfig;
@@ -89,6 +90,7 @@ export interface GlobalState {
 
 const initialState: GlobalState = {
 	controllerConnectionId: '',
+	controllerHeartbeat: 0,
 
 	gameConfig: {
 		totalRounds: 10,

@@ -193,6 +193,17 @@ Examples (15s question time):
 - Skip offline players in "all answered" detection
 - Show offline status in player lists
 
+### Controller Resilience
+
+- A single "global controller" connection drives phase transitions (timer checks, score application)
+- Any connected client (host, player, or presenter) can be elected controller
+- Controller writes a heartbeat timestamp every ~3 seconds during active game phases
+- If the controller's heartbeat goes stale (>8 seconds old), other clients force re-election excluding the stale connection
+- This handles browser tab backgrounding where WebSocket stays alive but JS timers are throttled
+- On controller takeover, the new controller recovers stuck generation locks (categories stuck >5s, questions stuck >30s)
+- All phase-transition actions include idempotency guards to prevent double-execution during brief controller overlap
+- The game continues to function even if the host screen is closed or backgrounded after starting
+
 ## Views
 
 ### Player Views

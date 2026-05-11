@@ -119,9 +119,18 @@ export const globalActions = {
 		});
 	},
 
+	// Reset generation locks (used during controller recovery)
+	async resetGenerationLocks() {
+		await kmClient.transact([globalStore], ([globalState]) => {
+			globalState.isGeneratingCategories = false;
+			globalState.isGeneratingQuestion = false;
+		});
+	},
+
 	// Transition from starting to category-vote (called by controller)
 	async transitionToCategoryVote() {
 		await kmClient.transact([globalStore], ([globalState]) => {
+			if (globalState.phase !== 'starting') return;
 			globalState.phase = 'category-vote';
 			globalState.categoryVoteStartTimestamp = kmClient.serverTimestamp();
 		});
@@ -137,6 +146,10 @@ export const globalActions = {
 	// Resolve category voting and move to trap selection
 	async resolveCategory() {
 		const state = globalStore.proxy;
+
+		// Phase guard: only resolve if still in category-vote
+		if (state.phase !== 'category-vote') return;
+
 		const votes = state.categoryVotes;
 		const options = state.categoryOptions;
 
@@ -307,6 +320,7 @@ export const globalActions = {
 	// End question early (when all players answered)
 	async endQuestionEarly() {
 		await kmClient.transact([globalStore], ([globalState]) => {
+			if (globalState.phase !== 'question') return;
 			if (globalState.currentQuestion) {
 				globalState.currentQuestion.endTimestamp = kmClient.serverTimestamp();
 			}
@@ -316,6 +330,9 @@ export const globalActions = {
 	// Calculate and apply round scores, move to results
 	async showRoundResults() {
 		await kmClient.transact([globalStore], ([globalState]) => {
+			// Phase guard: only apply scores once
+			if (globalState.phase !== 'question') return;
+
 			// Update player scores
 			Object.entries(globalState.playerAnswers).forEach(
 				([clientId, answer]) => {
@@ -333,6 +350,10 @@ export const globalActions = {
 	// Advance to next round or final results
 	async nextRound() {
 		const state = globalStore.proxy;
+
+		// Phase guard: only advance if still in round-results
+		if (state.phase !== 'round-results') return;
+
 		const currentRound = state.currentRound;
 		const totalRounds = state.gameConfig.totalRounds;
 
