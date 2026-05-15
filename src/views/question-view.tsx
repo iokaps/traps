@@ -31,7 +31,7 @@ export const QuestionView: React.FC = () => {
 	const hasAnswered = Boolean(myAnswer);
 
 	// Get my traps
-	const myTraps = activeTraps[kmClient.id] || [];
+	const myTraps = Object.values(activeTraps[kmClient.id] || {});
 	const hasIceTrap = myTraps.some((t) => t.trapType === 'ice');
 	const hasMudTrap = myTraps.some((t) => t.trapType === 'mud');
 	const hasMixedTrap = myTraps.some((t) => t.trapType === 'mixed');

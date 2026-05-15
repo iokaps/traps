@@ -67,7 +67,7 @@ export interface GlobalState {
 
 	// Trap selection
 	trapSelections: Record<string, { trapType: TrapType; targetId: string }>; // clientId -> trap selection
-	activeTraps: Record<string, TrapInfo[]>; // targetId -> array of traps received
+	activeTraps: Record<string, Record<string, TrapInfo>>; // targetId -> fromPlayerId -> trap info
 
 	// Trap selection timing
 	trapSelectionStartTimestamp: number;

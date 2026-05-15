@@ -63,6 +63,62 @@ const positionBadge = (index: number) =>
 				? 'bg-amber-600 text-amber-100'
 				: 'bg-white/60 text-text-body';
 
+const PresenterLeaderboardRow: React.FC<{
+	player: { clientId: string; name: string; score: number };
+	index: number;
+	roundPoints: number;
+}> = React.memo(({ player, index, roundPoints }) => (
+	<div
+		className={cn(
+			'flex items-center justify-between rounded-xl p-3 transition-all',
+			positionStyle(index)
+		)}
+	>
+		<div className="flex items-center gap-3">
+			<span
+				className={cn(
+					'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
+					positionBadge(index)
+				)}
+			>
+				{index + 1}
+			</span>
+			<span className="text-lg font-semibold">{player.name}</span>
+		</div>
+		<div className="flex items-center gap-3">
+			{roundPoints > 0 && (
+				<span className="text-success-dark font-medium">+{roundPoints}</span>
+			)}
+			<span className="text-xl font-bold">{player.score}</span>
+		</div>
+	</div>
+));
+
+const PresenterScoreRow: React.FC<{
+	player: { clientId: string; name: string; score: number };
+	index: number;
+}> = React.memo(({ player, index }) => (
+	<div
+		className={cn(
+			'flex items-center justify-between rounded-xl p-3',
+			positionStyle(index)
+		)}
+	>
+		<div className="flex items-center gap-3">
+			<span
+				className={cn(
+					'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
+					positionBadge(index)
+				)}
+			>
+				{index + 1}
+			</span>
+			<span className="text-lg font-semibold">{player.name}</span>
+		</div>
+		<span className="text-xl font-bold">{player.score}</span>
+	</div>
+));
+
 /* ─── Circular Timer ──────────────────────────────────────────────── */
 
 interface CircularTimerProps {
@@ -506,26 +562,29 @@ const PresenterContent: React.FC = () => {
 
 							{Object.keys(activeTraps).length > 0 && (
 								<div className="flex flex-wrap justify-center gap-2">
-									{Object.entries(activeTraps).map(([targetId, traps]) => {
-										const targetPlayer = players[targetId];
-										if (!targetPlayer) return null;
+									{Object.entries(activeTraps).map(
+										([targetId, trapsRecord]) => {
+											const targetPlayer = players[targetId];
+											if (!targetPlayer) return null;
+											const traps = Object.values(trapsRecord);
 
-										return (
-											<div
-												key={targetId}
-												className="card-glass flex items-center gap-2 rounded-full px-4 py-2"
-											>
-												<span className="text-sm font-semibold">
-													{targetPlayer.name}
-												</span>
-												<div className="flex gap-1">
-													{traps.map((trap, i) => (
-														<TrapIcon key={i} type={trap.trapType} />
-													))}
+											return (
+												<div
+													key={targetId}
+													className="card-glass flex items-center gap-2 rounded-full px-4 py-2"
+												>
+													<span className="text-sm font-semibold">
+														{targetPlayer.name}
+													</span>
+													<div className="flex gap-1">
+														{traps.map((trap, i) => (
+															<TrapIcon key={i} type={trap.trapType} />
+														))}
+													</div>
 												</div>
-											</div>
-										);
-									})}
+											);
+										}
+									)}
 								</div>
 							)}
 						</>
@@ -553,44 +612,16 @@ const PresenterContent: React.FC = () => {
 									{config.leaderboardTitle}
 								</h2>
 								<div className="flex flex-col gap-2">
-									{sortedPlayers.map((player, index) => {
-										const roundPoints =
-											playerAnswers[player.clientId]?.pointsEarned || 0;
-
-										return (
-											<div
-												key={player.clientId}
-												className={cn(
-													'flex items-center justify-between rounded-xl p-3 transition-all',
-													positionStyle(index)
-												)}
-											>
-												<div className="flex items-center gap-3">
-													<span
-														className={cn(
-															'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
-															positionBadge(index)
-														)}
-													>
-														{index + 1}
-													</span>
-													<span className="text-lg font-semibold">
-														{player.name}
-													</span>
-												</div>
-												<div className="flex items-center gap-3">
-													{roundPoints > 0 && (
-														<span className="text-success-dark font-medium">
-															+{roundPoints}
-														</span>
-													)}
-													<span className="text-xl font-bold">
-														{player.score}
-													</span>
-												</div>
-											</div>
-										);
-									})}
+									{sortedPlayers.map((player, index) => (
+										<PresenterLeaderboardRow
+											key={player.clientId}
+											player={player}
+											index={index}
+											roundPoints={
+												playerAnswers[player.clientId]?.pointsEarned || 0
+											}
+										/>
+									))}
 								</div>
 							</div>
 						</>
@@ -630,28 +661,11 @@ const PresenterContent: React.FC = () => {
 								</h2>
 								<div className="flex flex-col gap-2">
 									{sortedPlayers.map((player, index) => (
-										<div
+										<PresenterScoreRow
 											key={player.clientId}
-											className={cn(
-												'flex items-center justify-between rounded-xl p-3',
-												positionStyle(index)
-											)}
-										>
-											<div className="flex items-center gap-3">
-												<span
-													className={cn(
-														'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
-														positionBadge(index)
-													)}
-												>
-													{index + 1}
-												</span>
-												<span className="text-lg font-semibold">
-													{player.name}
-												</span>
-											</div>
-											<span className="text-xl font-bold">{player.score}</span>
-										</div>
+											player={player}
+											index={index}
+										/>
 									))}
 								</div>
 							</div>

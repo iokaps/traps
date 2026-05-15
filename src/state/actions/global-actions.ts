@@ -1,5 +1,6 @@
 import { config } from '@/config';
 import { kmClient } from '@/services/km-client';
+import { snapshot } from 'valtio';
 import {
 	globalStore,
 	type GameConfig,
@@ -78,7 +79,7 @@ export const globalActions = {
 
 	// Generate 4 random category options (instant, no AI)
 	async generateCategories() {
-		const state = globalStore.proxy;
+		const state = snapshot(globalStore.proxy);
 
 		// Guard: prevent multiple clients from generating simultaneously
 		if (
@@ -145,7 +146,7 @@ export const globalActions = {
 
 	// Resolve category voting and move to trap selection
 	async resolveCategory() {
-		const state = globalStore.proxy;
+		const state = snapshot(globalStore.proxy);
 
 		// Phase guard: only resolve if still in category-vote
 		if (state.phase !== 'category-vote') return;
@@ -204,19 +205,19 @@ export const globalActions = {
 
 			// Add trap to target's active traps
 			if (!globalState.activeTraps[targetId]) {
-				globalState.activeTraps[targetId] = [];
+				globalState.activeTraps[targetId] = {};
 			}
 
-			globalState.activeTraps[targetId].push({
+			globalState.activeTraps[targetId][kmClient.id] = {
 				trapType,
 				fromPlayerId: kmClient.id
-			});
+			};
 		});
 	},
 
 	// Generate question for selected category and start question phase
 	async startQuestion() {
-		const state = globalStore.proxy;
+		const state = snapshot(globalStore.proxy);
 
 		// Guard: if phase already changed, skip
 		if (state.phase !== 'trap-selection') {
@@ -292,7 +293,7 @@ export const globalActions = {
 
 	// Submit an answer
 	async submitAnswer(answerIndex: number) {
-		const state = globalStore.proxy;
+		const state = snapshot(globalStore.proxy);
 		const question = state.currentQuestion;
 
 		if (!question) return;
@@ -349,7 +350,7 @@ export const globalActions = {
 
 	// Advance to next round or final results
 	async nextRound() {
-		const state = globalStore.proxy;
+		const state = snapshot(globalStore.proxy);
 
 		// Phase guard: only advance if still in round-results
 		if (state.phase !== 'round-results') return;

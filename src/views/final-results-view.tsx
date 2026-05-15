@@ -41,7 +41,7 @@ const PlayerRow: React.FC<{
 	index: number;
 	isCurrentPlayer: boolean;
 	revealDelay: number;
-}> = ({ player, index, isCurrentPlayer, revealDelay }) => {
+}> = React.memo(({ player, index, isCurrentPlayer, revealDelay }) => {
 	const [isVisible, setIsVisible] = React.useState(false);
 
 	React.useEffect(() => {
@@ -113,7 +113,7 @@ const PlayerRow: React.FC<{
 			</div>
 		</div>
 	);
-};
+});
 
 const FinalResultsContent: React.FC = () => {
 	const { players } = useSnapshot(globalStore.proxy);

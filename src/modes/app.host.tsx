@@ -11,8 +11,61 @@ import { cn } from '@/utils/cn';
 import { KmQrCode, KmTimeCountdown } from '@kokimoki/shared';
 import { HelpCircle, X } from 'lucide-react';
 import * as React from 'react';
+
+import type { GamePhase } from '@/state/stores/global-store';
 import Markdown from 'react-markdown';
 import { useSnapshot } from 'valtio';
+
+const HostPlayerRow: React.FC<{
+	player: {
+		clientId: string;
+		name: string;
+		score: number;
+		isOnline: boolean;
+		hasAnswered: boolean;
+		hasTrap: boolean;
+	};
+	phase: GamePhase;
+}> = React.memo(({ player, phase }) => (
+	<div className="flex items-center justify-between rounded-xl bg-white/60 p-3 transition-colors">
+		<div className="flex items-center gap-2.5">
+			<div
+				className={cn(
+					'h-2.5 w-2.5 rounded-full',
+					player.isOnline
+						? 'bg-success shadow-success/50 shadow-sm'
+						: 'bg-gray-300'
+				)}
+			/>
+			<span className="font-semibold">{player.name}</span>
+		</div>
+		<div className="flex items-center gap-3">
+			{phase === 'trap-selection' && (
+				<span
+					className={cn(
+						'text-sm font-medium',
+						player.hasTrap ? 'text-success-dark' : 'text-text-muted'
+					)}
+				>
+					{player.hasTrap ? config.trapSubmittedLabel : '...'}
+				</span>
+			)}
+			{phase === 'question' && (
+				<span
+					className={cn(
+						'text-sm font-medium',
+						player.hasAnswered ? 'text-success-dark' : 'text-text-muted'
+					)}
+				>
+					{player.hasAnswered ? config.answerSubmittedHostLabel : '...'}
+				</span>
+			)}
+			<span className="text-text-heading min-w-[2rem] text-right font-bold">
+				{player.score}
+			</span>
+		</div>
+	</div>
+));
 
 const GAME_START_COUNTDOWN = 5000;
 
@@ -303,53 +356,11 @@ const App: React.FC = () => {
 						{playerList
 							.sort((a, b) => b.score - a.score)
 							.map((player) => (
-								<div
+								<HostPlayerRow
 									key={player.clientId}
-									className="flex items-center justify-between rounded-xl bg-white/60 p-3 transition-colors"
-								>
-									<div className="flex items-center gap-2.5">
-										<div
-											className={cn(
-												'h-2.5 w-2.5 rounded-full',
-												player.isOnline
-													? 'bg-success shadow-success/50 shadow-sm'
-													: 'bg-gray-300'
-											)}
-										/>
-										<span className="font-semibold">{player.name}</span>
-									</div>
-									<div className="flex items-center gap-3">
-										{phase === 'trap-selection' && (
-											<span
-												className={cn(
-													'text-sm font-medium',
-													player.hasTrap
-														? 'text-success-dark'
-														: 'text-text-muted'
-												)}
-											>
-												{player.hasTrap ? config.trapSubmittedLabel : '...'}
-											</span>
-										)}
-										{phase === 'question' && (
-											<span
-												className={cn(
-													'text-sm font-medium',
-													player.hasAnswered
-														? 'text-success-dark'
-														: 'text-text-muted'
-												)}
-											>
-												{player.hasAnswered
-													? config.answerSubmittedHostLabel
-													: '...'}
-											</span>
-										)}
-										<span className="text-text-heading min-w-[2rem] text-right font-bold">
-											{player.score}
-										</span>
-									</div>
-								</div>
+									player={player}
+									phase={phase}
+								/>
 							))}
 					</div>
 				</div>

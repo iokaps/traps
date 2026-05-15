@@ -6,6 +6,45 @@ import { Check, X } from 'lucide-react';
 import * as React from 'react';
 import { useSnapshot } from 'valtio';
 
+const LeaderboardRow: React.FC<{
+	player: {
+		clientId: string;
+		name: string;
+		score: number;
+		roundPoints: number;
+	};
+	index: number;
+	isCurrentPlayer: boolean;
+}> = React.memo(({ player, index, isCurrentPlayer }) => (
+	<div
+		className={cn(
+			'flex items-center justify-between rounded-xl p-2',
+			isCurrentPlayer && 'bg-primary/10 ring-primary/20 ring-1'
+		)}
+	>
+		<div className="flex items-center gap-2">
+			<span
+				className={cn(
+					'flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold',
+					index === 0 && 'bg-warning text-yellow-900',
+					index === 1 && 'bg-gray-300 text-gray-700',
+					index === 2 && 'bg-amber-600 text-amber-100',
+					index > 2 && 'bg-gray-100 text-gray-600'
+				)}
+			>
+				{index + 1}
+			</span>
+			<span className="font-medium">{player.name}</span>
+		</div>
+		<div className="flex items-center gap-2">
+			{player.roundPoints > 0 && (
+				<span className="text-success-dark text-sm">+{player.roundPoints}</span>
+			)}
+			<span className="font-bold">{player.score}</span>
+		</div>
+	</div>
+));
+
 export const RoundResultsView: React.FC = () => {
 	const { currentQuestion, playerAnswers, players, currentRound, gameConfig } =
 		useSnapshot(globalStore.proxy);
@@ -94,37 +133,12 @@ export const RoundResultsView: React.FC = () => {
 				</h3>
 				<div className="flex flex-col gap-2">
 					{leaderboard.map((player, index) => (
-						<div
+						<LeaderboardRow
 							key={player.clientId}
-							className={cn(
-								'flex items-center justify-between rounded-xl p-2',
-								player.clientId === kmClient.id &&
-									'bg-primary/10 ring-primary/20 ring-1'
-							)}
-						>
-							<div className="flex items-center gap-2">
-								<span
-									className={cn(
-										'flex h-6 w-6 items-center justify-center rounded-full text-sm font-bold',
-										index === 0 && 'bg-warning text-yellow-900',
-										index === 1 && 'bg-gray-300 text-gray-700',
-										index === 2 && 'bg-amber-600 text-amber-100',
-										index > 2 && 'bg-gray-100 text-gray-600'
-									)}
-								>
-									{index + 1}
-								</span>
-								<span className="font-medium">{player.name}</span>
-							</div>
-							<div className="flex items-center gap-2">
-								{player.roundPoints > 0 && (
-									<span className="text-success-dark text-sm">
-										+{player.roundPoints}
-									</span>
-								)}
-								<span className="font-bold">{player.score}</span>
-							</div>
-						</div>
+							player={player}
+							index={index}
+							isCurrentPlayer={player.clientId === kmClient.id}
+						/>
 					))}
 				</div>
 			</div>
