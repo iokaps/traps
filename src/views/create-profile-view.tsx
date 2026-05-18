@@ -43,7 +43,7 @@ export const CreateProfileView: React.FC<Props> = ({ className }) => {
 							onChange={(e) => setName(e.target.value)}
 							disabled={isLoading}
 							autoFocus
-							maxLength={50}
+							maxLength={7}
 							className="border-primary/20 focus:border-primary focus:ring-primary/20 w-full rounded-xl border bg-white/80 px-4 py-3 text-lg transition-all focus:ring-2 focus:outline-none"
 						/>
 					</label>

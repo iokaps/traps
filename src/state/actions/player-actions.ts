@@ -10,11 +10,12 @@ export const playerActions = {
 	},
 
 	async setPlayerName(name: string) {
+		const sanitized = name.slice(0, 7);
 		await kmClient.transact(
 			[playerStore, globalStore],
 			([playerState, globalState]) => {
-				playerState.name = name;
-				globalState.players[kmClient.id] = { name, score: 0 };
+				playerState.name = sanitized;
+				globalState.players[kmClient.id] = { name: sanitized, score: 0 };
 			}
 		);
 	},

@@ -259,13 +259,22 @@ export const globalActions = {
 				temperature: 0.7
 			});
 
+			// Shuffle answers to avoid LLM bias toward placing correct answer first
+			const indices = [0, 1, 2, 3];
+			for (let i = indices.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[indices[i], indices[j]] = [indices[j], indices[i]];
+			}
+			const shuffledAnswers = indices.map((i) => question.answers[i]);
+			const shuffledCorrectIndex = indices.indexOf(question.correctIndex);
+
 			const startTimestamp = kmClient.serverTimestamp();
 
 			await kmClient.transact([globalStore], ([globalState]) => {
 				globalState.currentQuestion = {
 					question: question.question,
-					answers: question.answers,
-					correctIndex: question.correctIndex,
+					answers: shuffledAnswers,
+					correctIndex: shuffledCorrectIndex,
 					startTimestamp,
 					endTimestamp: startTimestamp + questionTime * 1000
 				};
