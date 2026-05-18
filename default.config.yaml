@@ -30,6 +30,9 @@ categoryVoteSubtitle: 'Choose a topic for the next question'
 votesLabel: 'votes'
 categoryVoteTimeLabel: 'Time remaining'
 
+# Category Result
+categoryResultTitle: 'The winning category is...'
+
 # Trap Selection
 trapSelectionTitle: 'Throw a Trap!'
 trapSelectionSubtitle: 'Select a trap and choose your target'

@@ -35,6 +35,9 @@ export const schema = z.object({
 	votesLabel: z.string().default('votes'),
 	categoryVoteTimeLabel: z.string().default('Time remaining'),
 
+	// Category Result
+	categoryResultTitle: z.string().default('The winning category is...'),
+
 	// Trap Selection
 	trapSelectionTitle: z.string().default('Throw a Trap!'),
 	trapSelectionSubtitle: z

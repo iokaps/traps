@@ -17,7 +17,6 @@ export const CategoryVoteView: React.FC = () => {
 		useSnapshot(globalStore.proxy);
 
 	const myVote = categoryVotes[kmClient.id];
-	const hasVoted = Boolean(myVote);
 
 	// Calculate remaining time
 	const elapsed = serverTime - categoryVoteStartTimestamp;
@@ -36,7 +35,7 @@ export const CategoryVoteView: React.FC = () => {
 	}, [categoryOptions, categoryVotes]);
 
 	const handleVote = async (category: string) => {
-		if (hasVoted) return;
+		if (category === myVote) return;
 		await globalActions.submitCategoryVote(category);
 	};
 
@@ -77,13 +76,11 @@ export const CategoryVoteView: React.FC = () => {
 						<button
 							key={category}
 							onClick={() => handleVote(category)}
-							disabled={hasVoted}
 							className={cn(
 								'relative flex items-center justify-between rounded-2xl border-2 p-4 text-left transition-all',
 								isSelected
 									? 'border-primary bg-primary/10 shadow-primary/10 shadow-md'
-									: 'hover:border-primary-light hover:bg-primary/5 border-white/50 bg-white/50',
-								hasVoted && !isSelected && 'opacity-50'
+									: 'hover:border-primary-light hover:bg-primary/5 border-white/50 bg-white/50'
 							)}
 						>
 							<span className="text-lg font-medium">{category}</span>
@@ -99,12 +96,6 @@ export const CategoryVoteView: React.FC = () => {
 					);
 				})}
 			</div>
-
-			{hasVoted && (
-				<p className="text-text-muted text-center">
-					{config.waitingForOthersLabel}
-				</p>
-			)}
 		</div>
 	);
 };

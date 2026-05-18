@@ -7,6 +7,7 @@ import { useServerTimer } from './useServerTime';
 
 const GAME_START_COUNTDOWN = 5000; // 5 seconds countdown before category vote
 const CATEGORY_VOTE_TIME = 15000; // 15 seconds
+const CATEGORY_RESULT_TIME = 3000; // 3 seconds to show winning category
 const TRAP_SELECTION_TIME = 20000; // 20 seconds
 const ROUND_RESULTS_TIME = 5000; // 5 seconds
 
@@ -23,6 +24,7 @@ export function useGlobalController() {
 		gameStartTimestamp,
 		categoryOptions,
 		categoryVoteStartTimestamp,
+		categoryResultStartTimestamp,
 		trapSelectionStartTimestamp,
 		trapSelections,
 		currentQuestion,
@@ -203,6 +205,14 @@ export function useGlobalController() {
 			}
 		}
 
+		// Category Result Phase - auto-advance to trap selection after brief display
+		if (phase === 'category-result' && categoryResultStartTimestamp > 0) {
+			const elapsed = serverTime - categoryResultStartTimestamp;
+			if (elapsed >= CATEGORY_RESULT_TIME) {
+				globalActions.transitionToTrapSelection();
+			}
+		}
+
 		// Trap Selection Phase - always wait for full timer to give AI time to generate question
 		if (phase === 'trap-selection' && trapSelectionStartTimestamp > 0) {
 			const elapsed = serverTime - trapSelectionStartTimestamp;
@@ -254,6 +264,7 @@ export function useGlobalController() {
 		gameStartTimestamp,
 		categoryOptions,
 		categoryVoteStartTimestamp,
+		categoryResultStartTimestamp,
 		trapSelectionStartTimestamp,
 		trapSelections,
 		currentQuestion,

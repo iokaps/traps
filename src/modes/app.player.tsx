@@ -6,6 +6,7 @@ import { PlayerLayout } from '@/layouts/player';
 import { playerActions } from '@/state/actions/player-actions';
 import { globalStore } from '@/state/stores/global-store';
 import { playerStore } from '@/state/stores/player-store';
+import { CategoryResultView } from '@/views/category-result-view';
 import { CategoryVoteView } from '@/views/category-vote-view';
 import { CreateProfileView } from '@/views/create-profile-view';
 import { FinalResultsView } from '@/views/final-results-view';
@@ -36,6 +37,8 @@ const App: React.FC = () => {
 			playerActions.setCurrentView('category-vote');
 			// Reset trap state for new round
 			playerActions.resetTrapState();
+		} else if (phase === 'category-result') {
+			playerActions.setCurrentView('category-result');
 		} else if (phase === 'trap-selection') {
 			playerActions.setCurrentView('trap-selection');
 		} else if (phase === 'question') {
@@ -67,6 +70,7 @@ const App: React.FC = () => {
 					{currentView === 'lobby' && <GameLobbyView />}
 					{currentView === 'starting' && <GameStartingView />}
 					{currentView === 'category-vote' && <CategoryVoteView />}
+					{currentView === 'category-result' && <CategoryResultView />}
 					{currentView === 'trap-selection' && <TrapSelectionView />}
 					{currentView === 'question' && <QuestionView />}
 					{currentView === 'round-results' && <RoundResultsView />}

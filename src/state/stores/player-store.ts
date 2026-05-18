@@ -4,6 +4,7 @@ export type PlayerView =
 	| 'lobby'
 	| 'starting'
 	| 'category-vote'
+	| 'category-result'
 	| 'trap-selection'
 	| 'question'
 	| 'round-results'

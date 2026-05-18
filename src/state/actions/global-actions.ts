@@ -184,13 +184,22 @@ export const globalActions = {
 
 		await kmClient.transact([globalStore], ([globalState]) => {
 			globalState.selectedCategory = selected;
+			globalState.phase = 'category-result';
+			globalState.categoryResultStartTimestamp = kmClient.serverTimestamp();
+		});
+	},
+
+	// Transition from category-result to trap-selection (called by controller after brief display)
+	async transitionToTrapSelection() {
+		await kmClient.transact([globalStore], ([globalState]) => {
+			if (globalState.phase !== 'category-result') return;
 			globalState.phase = 'trap-selection';
 			globalState.trapSelections = {};
 			globalState.activeTraps = {};
 			globalState.trapSelectionStartTimestamp = kmClient.serverTimestamp();
 			globalState.currentQuestion = null;
-			globalState.isGeneratingQuestion = false; // Reset lock for new round
-			globalState.questionGenerationFailed = false; // Reset failure flag
+			globalState.isGeneratingQuestion = false;
+			globalState.questionGenerationFailed = false;
 		});
 	},
 

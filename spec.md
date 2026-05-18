@@ -32,9 +32,17 @@ A multiplayer trivia game where players compete to answer AI-generated medium-di
 │  - 4 random categories from predefined pool (30 topics)             │
 │  - All players see same 4 options                                   │
 │  - Players vote for preferred category                              │
+│  - Players can change their vote before time expires                │
 │  - Majority wins, random tie-breaker                                │
 │  - Offline players are skipped                                      │
 │  - 15 second voting time                                            │
+└─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       CATEGORY RESULT (3 seconds)                    │
+│  - Displays the winning category to all players                     │
+│  - Brief pause before trap selection begins                         │
 └─────────────────────────────────────────────────────────────────────┘
                                   │
                                   ▼
@@ -162,13 +170,14 @@ Examples (15s question time):
 
 ## Phase Timings
 
-| Phase          | Duration                   | Notes                                         |
-| -------------- | -------------------------- | --------------------------------------------- |
-| Get Ready      | 5 seconds                  | Countdown + category generation in background |
-| Category Vote  | 15 seconds                 | Auto-advances when time expires               |
-| Trap Selection | 20 seconds                 | Always runs full duration (AI generates Q)    |
-| Question       | Configurable (15s default) | Ends early when all online players answered   |
-| Round Results  | 5 seconds                  | Auto-advance to next phase                    |
+| Phase           | Duration                   | Notes                                         |
+| --------------- | -------------------------- | --------------------------------------------- |
+| Get Ready       | 5 seconds                  | Countdown + category generation in background |
+| Category Vote   | 15 seconds                 | Auto-advances when time expires               |
+| Category Result | 3 seconds                  | Displays winning category before trap phase   |
+| Trap Selection  | 20 seconds                 | Always runs full duration (AI generates Q)    |
+| Question        | Configurable (15s default) | Ends early when all online players answered   |
+| Round Results   | 5 seconds                  | Auto-advance to next phase                    |
 
 ## Technical Requirements
 

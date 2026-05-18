@@ -71,6 +71,7 @@ const GAME_START_COUNTDOWN = 5000;
 
 const phaseColors: Record<string, string> = {
 	'category-vote': 'bg-accent/15 text-accent',
+	'category-result': 'bg-accent/15 text-accent',
 	'trap-selection': 'bg-trap-mixed/15 text-trap-mixed',
 	question: 'bg-primary/15 text-primary',
 	'round-results': 'bg-success/15 text-success-dark',

@@ -4,6 +4,7 @@ export type GamePhase =
 	| 'lobby'
 	| 'starting'
 	| 'category-vote'
+	| 'category-result'
 	| 'trap-selection'
 	| 'question'
 	| 'round-results'
@@ -84,6 +85,9 @@ export interface GlobalState {
 	// Category vote timing
 	categoryVoteStartTimestamp: number;
 
+	// Category result timing
+	categoryResultStartTimestamp: number;
+
 	// Round results timing
 	roundResultsStartTimestamp: number;
 }
@@ -119,6 +123,7 @@ const initialState: GlobalState = {
 
 	gameStartTimestamp: 0,
 	categoryVoteStartTimestamp: 0,
+	categoryResultStartTimestamp: 0,
 	roundResultsStartTimestamp: 0
 };
 

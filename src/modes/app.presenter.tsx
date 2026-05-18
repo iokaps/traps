@@ -459,6 +459,18 @@ const PresenterContent: React.FC = () => {
 						</div>
 					)}
 
+					{/* ── Category Result ─────────────────────────────── */}
+					{phase === 'category-result' && (
+						<div className="card-glass flex flex-col items-center gap-6 rounded-3xl p-10">
+							<h2 className="text-text-heading text-3xl font-bold">
+								{config.categoryResultTitle}
+							</h2>
+							<p className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-5xl font-extrabold text-transparent">
+								{selectedCategory}
+							</p>
+						</div>
+					)}
+
 					{/* ── Trap Selection ─────────────────────────────── */}
 					{phase === 'trap-selection' && (
 						<>
