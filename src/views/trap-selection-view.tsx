@@ -74,8 +74,10 @@ export const TrapSelectionView: React.FC = () => {
 			)
 			.map(([clientId, info]) => ({
 				clientId,
-				name: info.name
-			}));
+				name: info.name,
+				score: info.score
+			}))
+			.sort((a, b) => b.score - a.score);
 	}, [players, onlineClientIds]);
 
 	// Calculate remaining time

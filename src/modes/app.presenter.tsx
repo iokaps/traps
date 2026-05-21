@@ -33,13 +33,13 @@ const GAME_START_COUNTDOWN = 5000;
 const TrapIcon: React.FC<{ type: string }> = ({ type }) => {
 	switch (type) {
 		case 'ice':
-			return <Snowflake className="text-trap-ice h-4 w-4" />;
+			return <Snowflake className="text-trap-ice h-5 w-5" />;
 		case 'mud':
-			return <Droplets className="text-trap-mud h-4 w-4" />;
+			return <Droplets className="text-trap-mud h-5 w-5" />;
 		case 'mixed':
-			return <Shuffle className="text-trap-mixed h-4 w-4" />;
+			return <Shuffle className="text-trap-mixed h-5 w-5" />;
 		case 'missing':
-			return <EyeOff className="text-trap-missing h-4 w-4" />;
+			return <EyeOff className="text-trap-missing h-5 w-5" />;
 		default:
 			return null;
 	}
@@ -70,26 +70,28 @@ const PresenterLeaderboardRow: React.FC<{
 }> = React.memo(({ player, index, roundPoints }) => (
 	<div
 		className={cn(
-			'flex items-center justify-between rounded-xl p-3 transition-all',
+			'flex items-center justify-between rounded-xl p-4 transition-all',
 			positionStyle(index)
 		)}
 	>
 		<div className="flex items-center gap-3">
 			<span
 				className={cn(
-					'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
+					'flex h-10 w-10 items-center justify-center rounded-full text-base font-bold',
 					positionBadge(index)
 				)}
 			>
 				{index + 1}
 			</span>
-			<span className="text-lg font-semibold">{player.name}</span>
+			<span className="text-xl font-semibold">{player.name}</span>
 		</div>
 		<div className="flex items-center gap-3">
 			{roundPoints > 0 && (
-				<span className="text-success-dark font-medium">+{roundPoints}</span>
+				<span className="text-success-dark text-lg font-medium">
+					+{roundPoints}
+				</span>
 			)}
-			<span className="text-xl font-bold">{player.score}</span>
+			<span className="text-2xl font-bold">{player.score}</span>
 		</div>
 	</div>
 ));
@@ -100,22 +102,22 @@ const PresenterScoreRow: React.FC<{
 }> = React.memo(({ player, index }) => (
 	<div
 		className={cn(
-			'flex items-center justify-between rounded-xl p-3',
+			'flex items-center justify-between rounded-xl p-4',
 			positionStyle(index)
 		)}
 	>
 		<div className="flex items-center gap-3">
 			<span
 				className={cn(
-					'flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold',
+					'flex h-10 w-10 items-center justify-center rounded-full text-base font-bold',
 					positionBadge(index)
 				)}
 			>
 				{index + 1}
 			</span>
-			<span className="text-lg font-semibold">{player.name}</span>
+			<span className="text-xl font-semibold">{player.name}</span>
 		</div>
-		<span className="text-xl font-bold">{player.score}</span>
+		<span className="text-2xl font-bold">{player.score}</span>
 	</div>
 ));
 
@@ -309,7 +311,7 @@ const PresenterContent: React.FC = () => {
 					onClick={() => setQrVisible(false)}
 				>
 					<div
-						className="card-glass animate-slide-in-right mt-16 w-80 rounded-2xl p-6"
+						className="card-glass animate-slide-in-right mt-16 w-96 rounded-2xl p-8"
 						onClick={(e) => e.stopPropagation()}
 					>
 						<div className="mb-4 flex items-center justify-between">
@@ -324,7 +326,7 @@ const PresenterContent: React.FC = () => {
 							</button>
 						</div>
 						<div className="flex justify-center">
-							<KmQrCode data={playerLink} size={220} interactive={false} />
+							<KmQrCode data={playerLink} size={280} interactive={false} />
 						</div>
 						<a
 							href={playerLink}
@@ -338,21 +340,21 @@ const PresenterContent: React.FC = () => {
 				</div>
 			)}
 
-			<HostPresenterLayout.Main className="max-w-screen-lg">
+			<HostPresenterLayout.Main>
 				{/* Phase content with transition animation */}
 				<div key={phase} className="animate-fade-slide-in flex flex-col gap-6">
 					{/* ── Lobby ──────────────────────────────────────── */}
 					{phase === 'lobby' && (
 						<>
-							<div className="card-glass rounded-3xl p-10 text-center">
-								<h2 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-5xl font-extrabold text-transparent">
+							<div className="card-glass rounded-3xl p-14 text-center">
+								<h2 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-6xl font-extrabold text-transparent">
 									{config.lobbyTitle}
 								</h2>
-								<p className="text-text-muted mt-3 text-xl">
+								<p className="text-text-muted mt-3 text-2xl">
 									{config.lobbySubtitle}
 								</p>
 								<div className="mx-auto mt-8 w-fit">
-									<KmQrCode data={playerLink} size={240} interactive={false} />
+									<KmQrCode data={playerLink} size={320} interactive={false} />
 									<a
 										href={playerLink}
 										target="_blank"
@@ -364,17 +366,17 @@ const PresenterContent: React.FC = () => {
 								</div>
 							</div>
 
-							<div className="card-glass rounded-2xl p-6">
-								<h2 className="text-text-heading mb-4 text-xl font-bold">
+							<div className="card-glass rounded-2xl p-8">
+								<h2 className="text-text-heading mb-4 text-2xl font-bold">
 									{config.playersLabel} (
 									{sortedPlayers.filter((p) => p.isOnline).length})
 								</h2>
-								<div className="flex flex-wrap gap-2">
+								<div className="flex flex-wrap gap-3">
 									{sortedPlayers.map((player) => (
 										<div
 											key={player.clientId}
 											className={cn(
-												'rounded-full px-4 py-2 text-sm font-semibold transition-all',
+												'rounded-full px-5 py-2.5 text-base font-semibold transition-all',
 												player.isOnline
 													? 'from-success/20 to-success/10 text-success-dark bg-gradient-to-r shadow-sm'
 													: 'text-text-muted bg-gray-100/50'
@@ -390,11 +392,11 @@ const PresenterContent: React.FC = () => {
 
 					{/* ── Starting ──────────────────────────────────── */}
 					{phase === 'starting' && (
-						<div className="card-glass flex flex-col items-center gap-6 rounded-3xl p-10">
-							<h2 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-4xl font-extrabold text-transparent">
+						<div className="card-glass flex flex-col items-center gap-8 rounded-3xl p-14">
+							<h2 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-5xl font-extrabold text-transparent">
 								{config.gameStartingTitle}
 							</h2>
-							<p className="text-text-muted">
+							<p className="text-text-muted text-lg">
 								{config.roundLabel} {currentRound}/{gameConfig.totalRounds}
 							</p>
 							{gameStartTimestamp > 0 ? (
@@ -404,12 +406,12 @@ const PresenterContent: React.FC = () => {
 										GAME_START_COUNTDOWN - (serverTime - gameStartTimestamp)
 									)}
 									totalMs={GAME_START_COUNTDOWN}
-									size={120}
+									size={160}
 								/>
 							) : (
 								<div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
 							)}
-							<p className="text-text-muted text-lg">
+							<p className="text-text-muted text-xl">
 								{config.getReadyMessage}
 							</p>
 						</div>
@@ -417,15 +419,15 @@ const PresenterContent: React.FC = () => {
 
 					{/* ── Category Vote ──────────────────────────────── */}
 					{phase === 'category-vote' && (
-						<div className="card-glass rounded-2xl p-8">
+						<div className="card-glass rounded-2xl p-10">
 							<div className="mb-6 flex items-center justify-between">
-								<h2 className="text-text-heading text-3xl font-bold">
+								<h2 className="text-text-heading text-4xl font-bold">
 									{config.categoryVoteTitle}
 								</h2>
 								<CircularTimer
 									remainingMs={getCategoryVoteRemaining()}
 									totalMs={CATEGORY_VOTE_TIME}
-									size={72}
+									size={96}
 								/>
 							</div>
 
@@ -445,7 +447,7 @@ const PresenterContent: React.FC = () => {
 												style={{ width: `${percentage}%` }}
 											/>
 											<div className="relative flex items-center justify-between">
-												<span className="text-text-heading text-xl font-semibold">
+												<span className="text-text-heading text-2xl font-semibold">
 													{category}
 												</span>
 												<span className="from-primary to-secondary rounded-full bg-gradient-to-r px-3 py-1 text-sm font-bold text-white shadow-sm">
@@ -461,11 +463,11 @@ const PresenterContent: React.FC = () => {
 
 					{/* ── Category Result ─────────────────────────────── */}
 					{phase === 'category-result' && (
-						<div className="card-glass flex flex-col items-center gap-6 rounded-3xl p-10">
-							<h2 className="text-text-heading text-3xl font-bold">
+						<div className="card-glass flex flex-col items-center gap-8 rounded-3xl p-14">
+							<h2 className="text-text-heading text-4xl font-bold">
 								{config.categoryResultTitle}
 							</h2>
-							<p className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-5xl font-extrabold text-transparent">
+							<p className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-6xl font-extrabold text-transparent">
 								{selectedCategory}
 							</p>
 						</div>
@@ -474,10 +476,10 @@ const PresenterContent: React.FC = () => {
 					{/* ── Trap Selection ─────────────────────────────── */}
 					{phase === 'trap-selection' && (
 						<>
-							<div className="card-glass rounded-2xl p-8">
+							<div className="card-glass rounded-2xl p-10">
 								<div className="flex items-center justify-between">
 									<div>
-										<h2 className="text-text-heading text-3xl font-bold">
+										<h2 className="text-text-heading text-4xl font-bold">
 											{config.trapSelectionTitle}
 										</h2>
 										<p className="text-text-muted mt-1">
@@ -490,13 +492,13 @@ const PresenterContent: React.FC = () => {
 									<CircularTimer
 										remainingMs={getTrapSelectionRemaining()}
 										totalMs={TRAP_SELECTION_TIME}
-										size={72}
+										size={96}
 									/>
 								</div>
 							</div>
 
-							<div className="card-glass rounded-2xl p-6">
-								<h2 className="text-text-heading mb-4 text-xl font-bold">
+							<div className="card-glass rounded-2xl p-8">
+								<h2 className="text-text-heading mb-4 text-2xl font-bold">
 									{config.presenterTrapActivityTitle}
 								</h2>
 								<div className="flex flex-col gap-2">
@@ -508,13 +510,17 @@ const PresenterContent: React.FC = () => {
 										return (
 											<div
 												key={fromId}
-												className="flex items-center gap-3 rounded-xl bg-white/50 p-3"
+												className="flex items-center gap-3 rounded-xl bg-white/50 p-4"
 											>
-												<span className="font-semibold">{fromPlayer.name}</span>
+												<span className="text-base font-semibold">
+													{fromPlayer.name}
+												</span>
 												<span className="text-text-muted">→</span>
 												<TrapIcon type={selection.trapType} />
 												<span className="text-text-muted">→</span>
-												<span className="font-semibold">{toPlayer.name}</span>
+												<span className="text-base font-semibold">
+													{toPlayer.name}
+												</span>
 											</div>
 										);
 									})}
@@ -526,7 +532,7 @@ const PresenterContent: React.FC = () => {
 					{/* ── Question ───────────────────────────────────── */}
 					{phase === 'question' && currentQuestion && (
 						<>
-							<div className="card-glass flex flex-col items-center gap-6 rounded-3xl p-10">
+							<div className="card-glass flex flex-col items-center gap-8 rounded-3xl p-14">
 								<CircularTimer
 									remainingMs={getQuestionRemaining()}
 									totalMs={
@@ -534,22 +540,22 @@ const PresenterContent: React.FC = () => {
 										(currentQuestion.endTimestamp -
 											gameConfig.questionTimeSeconds * 1000)
 									}
-									size={96}
+									size={128}
 								/>
 								<span className="text-text-muted text-xs font-semibold tracking-wider uppercase">
 									{config.questionTitle}
 								</span>
-								<h2 className="text-text-heading max-w-3xl text-center text-4xl leading-snug font-bold">
+								<h2 className="text-text-heading max-w-4xl text-center text-5xl leading-snug font-bold">
 									{currentQuestion.question}
 								</h2>
 							</div>
 
-							<div className="card-glass rounded-2xl p-6">
-								<h2 className="text-text-heading mb-3 text-lg font-bold">
+							<div className="card-glass rounded-2xl p-8">
+								<h2 className="text-text-heading mb-3 text-xl font-bold">
 									{config.presenterAnswerProgressTitle}
 								</h2>
 								<div className="flex items-center gap-4">
-									<div className="h-3 flex-1 overflow-hidden rounded-full bg-white/50">
+									<div className="h-4 flex-1 overflow-hidden rounded-full bg-white/50">
 										<div
 											className="from-success to-success-dark h-full rounded-full bg-gradient-to-r transition-all duration-500"
 											style={{
@@ -605,22 +611,22 @@ const PresenterContent: React.FC = () => {
 					{/* ── Round Results ──────────────────────────────── */}
 					{phase === 'round-results' && currentQuestion && (
 						<>
-							<div className="card-glass rounded-2xl p-6">
-								<h2 className="text-text-heading mb-4 text-2xl font-bold">
+							<div className="card-glass rounded-2xl p-8">
+								<h2 className="text-text-heading mb-4 text-3xl font-bold">
 									{config.roundResultsTitle}
 								</h2>
-								<div className="bg-success/10 rounded-2xl p-5">
-									<p className="text-text-muted text-xs font-semibold tracking-wider uppercase">
+								<div className="bg-success/10 rounded-2xl p-6">
+									<p className="text-text-muted text-sm font-semibold tracking-wider uppercase">
 										{config.correctAnswerLabel}
 									</p>
-									<p className="text-success-dark text-3xl font-bold">
+									<p className="text-success-dark text-4xl font-bold">
 										{currentQuestion.answers[currentQuestion.correctIndex]}
 									</p>
 								</div>
 							</div>
 
-							<div className="card-glass rounded-2xl p-6">
-								<h2 className="text-text-heading mb-4 text-xl font-bold">
+							<div className="card-glass rounded-2xl p-8">
+								<h2 className="text-text-heading mb-4 text-2xl font-bold">
 									{config.leaderboardTitle}
 								</h2>
 								<div className="flex flex-col gap-2">
@@ -642,10 +648,10 @@ const PresenterContent: React.FC = () => {
 					{/* ── Final Results ──────────────────────────────── */}
 					{phase === 'final-results' && (
 						<>
-							<div className="card-glass rounded-3xl p-8">
-								<div className="mb-6 flex items-center justify-center gap-3">
-									<Trophy className="text-warning h-10 w-10 animate-bounce" />
-									<h2 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-5xl font-extrabold text-transparent">
+							<div className="card-glass rounded-3xl p-12">
+								<div className="mb-8 flex items-center justify-center gap-4">
+									<Trophy className="text-warning h-12 w-12 animate-bounce" />
+									<h2 className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-6xl font-extrabold text-transparent">
 										{config.finalResultsTitle}
 									</h2>
 								</div>
@@ -655,10 +661,10 @@ const PresenterContent: React.FC = () => {
 										<p className="text-text-muted text-sm font-medium tracking-wider uppercase">
 											{config.winnerLabel}
 										</p>
-										<p className="from-warning bg-gradient-to-r to-amber-500 bg-clip-text text-5xl font-black text-transparent">
+										<p className="from-warning bg-gradient-to-r to-amber-500 bg-clip-text text-6xl font-black text-transparent">
 											{sortedPlayers[0].name}
 										</p>
-										<p className="text-text-heading mt-1 text-2xl font-bold">
+										<p className="text-text-heading mt-1 text-3xl font-bold">
 											{sortedPlayers[0].score} {config.pointsLabel}
 										</p>
 									</div>
@@ -667,8 +673,8 @@ const PresenterContent: React.FC = () => {
 								<KmPodiumTable entries={podiumEntries} />
 							</div>
 
-							<div className="card-glass rounded-2xl p-6">
-								<h2 className="text-text-heading mb-4 text-xl font-bold">
+							<div className="card-glass rounded-2xl p-8">
+								<h2 className="text-text-heading mb-4 text-2xl font-bold">
 									{config.finalScoresLabel}
 								</h2>
 								<div className="flex flex-col gap-2">
@@ -688,24 +694,24 @@ const PresenterContent: React.FC = () => {
 
 			{/* ── Bottom Bar (visible during gameplay) ────────────── */}
 			{phase !== 'lobby' && phase !== 'final-results' && (
-				<div className="card-glass fixed right-0 bottom-0 left-0 z-40 flex items-center justify-between px-8 py-3">
-					<span className="text-text-heading text-sm font-bold">
+				<div className="card-glass fixed right-0 bottom-0 left-0 z-40 flex items-center justify-between px-10 py-4">
+					<span className="text-text-heading text-base font-bold">
 						{config.roundLabel} {currentRound}/{gameConfig.totalRounds}
 						<span className="text-text-muted mx-2">·</span>
-						<span className="text-primary capitalize">
+						<span className="text-primary text-base capitalize">
 							{phase.replace('-', ' ')}
 						</span>
 					</span>
 					<div className="flex items-center gap-2">
-						<Users className="text-primary h-4 w-4" />
-						<span className="text-text-heading text-sm font-bold">
+						<Users className="text-primary h-5 w-5" />
+						<span className="text-text-heading text-base font-bold">
 							{sortedPlayers.filter((p) => p.isOnline).length}
 						</span>
-						<span className="text-text-muted text-sm">
+						<span className="text-text-muted text-base">
 							{config.presenterOnlineLabel}
 						</span>
 					</div>
-					<span className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-sm font-extrabold text-transparent">
+					<span className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-base font-extrabold text-transparent">
 						{config.title}
 					</span>
 				</div>
